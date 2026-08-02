@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI in Healthcare – Complete Study Notes</title>
+<style>
+  :root {
+    --primary: #1a237e; --accent: #0288d1; --green: #2e7d32;
+    --orange: #e65100; --purple: #6a1b9a; --red: #c62828;
+    --teal: #00695c; --bg: #f8f9fc; --card: #ffffff;
+    --border: #e0e4ef; --text: #1c1c2e; --muted: #546e7a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.7; }
+  
+  /* Cover Page */
+  .cover { background: linear-gradient(135deg, #1a237e 0%, #0288d1 60%, #00695c 100%); color: white; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px 40px; page-break-after: always; }
+  .cover h1 { font-size: 2.8em; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+  .cover h2 { font-size: 1.4em; font-weight: 300; opacity: 0.9; margin-bottom: 30px; }
+  .cover .badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 30px; padding: 8px 24px; display: inline-block; margin: 8px; font-size: 0.9em; }
+  .cover .meta { margin-top: 50px; opacity: 0.75; font-size: 0.9em; }
+
+  /* TOC */
+  .toc-page { padding: 60px 80px; page-break-after: always; }
+  .toc-page h2 { font-size: 2em; color: var(--primary); border-bottom: 3px solid var(--accent); padding-bottom: 10px; margin-bottom: 30px; }
+  .toc-section { margin-bottom: 8px; }
+  .toc-section a { text-decoration: none; color: var(--text); display: flex; justify-content: space-between; padding: 6px 12px; border-radius: 6px; transition: background 0.2s; }
+  .toc-section a:hover { background: #e8f0fe; }
+  .toc-section a .toc-num { color: var(--muted); font-size: 0.85em; }
+  .toc-main { font-weight: 700; font-size: 1.05em; color: var(--primary); }
+  .toc-sub { font-size: 0.9em; padding-left: 24px; color: var(--muted); }
+  .toc-dot { flex: 1; border-bottom: 1px dotted #ccc; margin: 0 8px; position: relative; top: -4px; }
+
+  /* Layout */
+  .page { padding: 50px 80px; max-width: 1100px; margin: 0 auto; }
+  @media (max-width: 768px) { .page { padding: 30px 20px; } }
+
+  /* Section Headers */
+  .section-header { background: linear-gradient(90deg, var(--primary), var(--accent)); color: white; padding: 18px 32px; border-radius: 12px; margin: 40px 0 24px 0; page-break-before: always; }
+  .section-header .section-num { font-size: 0.85em; opacity: 0.8; text-transform: uppercase; letter-spacing: 2px; }
+  .section-header h2 { font-size: 1.8em; font-weight: 800; margin: 4px 0 0 0; }
+  .subsection-header { border-left: 5px solid var(--accent); padding: 8px 16px; margin: 28px 0 14px 0; background: #e8f4fd; border-radius: 0 8px 8px 0; }
+  .subsection-header h3 { color: var(--primary); font-size: 1.2em; }
+
+  /* Cards & Callouts */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin: 16px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .callout { border-radius: 10px; padding: 16px 20px; margin: 16px 0; border-left: 5px solid; }
+  .callout-blue { background: #e3f2fd; border-color: #1976d2; }
+  .callout-green { background: #e8f5e9; border-color: #388e3c; }
+  .callout-orange { background: #fff3e0; border-color: #f57c00; }
+  .callout-purple { background: #f3e5f5; border-color: #7b1fa2; }
+  .callout-red { background: #ffebee; border-color: #c62828; }
+  .callout-teal { background: #e0f2f1; border-color: #00897b; }
+  .callout h4 { font-size: 0.95em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; opacity: 0.8; }
+
+  /* Code Blocks */
+  .code-block { background: #1e2030; color: #c9d1d9; border-radius: 10px; padding: 20px 24px; margin: 18px 0; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.88em; line-height: 1.6; overflow-x: auto; position: relative; border: 1px solid #30363d; }
+  .code-block .code-label { position: absolute; top: 8px; right: 14px; font-size: 0.75em; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
+  .code-block .kw { color: #ff7b72; } /* keywords */
+  .code-block .fn { color: #d2a8ff; } /* functions */
+  .code-block .st { color: #a5d6ff; } /* strings */
+  .code-block .cm { color: #8b949e; font-style: italic; } /* comments */
+  .code-block .nm { color: #79c0ff; } /* numbers */
+  .code-block .op { color: #f97316; } /* operators */
+
+  .colab-box { background: linear-gradient(90deg, #ff6d00, #ffab40); color: white; border-radius: 10px; padding: 16px 20px; margin: 16px 0; }
+  .colab-box h4 { margin-bottom: 6px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  th { background: var(--primary); color: white; padding: 12px 16px; text-align: left; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #f0f4ff; }
+  tr:last-child td { border-bottom: none; }
+
+  /* Grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 16px 0; }
+  @media (max-width: 700px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  /* Tags & Badges */
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.78em; font-weight: 600; margin: 2px; }
+  .tag-blue { background: #bbdefb; color: #0d47a1; }
+  .tag-green { background: #c8e6c9; color: #1b5e20; }
+  .tag-orange { background: #ffe0b2; color: #bf360c; }
+  .tag-purple { background: #e1bee7; color: #4a148c; }
+
+  /* Formula Box */
+  .formula { background: #fafafa; border: 2px solid var(--accent); border-radius: 8px; padding: 16px 24px; margin: 14px 0; font-family: 'Georgia', serif; font-size: 1.05em; text-align: center; }
+
+  /* Key Points */
+  .key-points li { padding: 6px 0 6px 0; border-bottom: 1px solid #f0f0f0; }
+  .key-points li:last-child { border-bottom: none; }
+  .key-points li::before { content: "▸ "; color: var(--accent); font-weight: bold; }
+
+  /* Page Footer */
+  .page-num { text-align: center; color: var(--muted); font-size: 0.8em; margin: 40px 0 20px 0; padding: 10px; border-top: 1px solid var(--border); }
+
+  /* Diagram */
+  .diagram { background: #f0f4ff; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 16px 0; font-family: monospace; font-size: 0.85em; white-space: pre; overflow-x: auto; color: var(--primary); }
+
+  /* Screenshot note */
+  .screenshot-note { background: #fff8e1; border: 1px dashed #f9a825; border-radius: 8px; padding: 12px 16px; margin: 12px 0; font-size: 0.9em; color: #5d4037; }
+  .screenshot-note strong { color: #e65100; }
+
+  p { margin: 8px 0; }
+  ul, ol { padding-left: 24px; margin: 8px 0; }
+  li { margin: 4px 0; }
+  strong { color: #1a237e; }
+  h4 { color: var(--primary); margin: 14px 0 6px 0; font-size: 1em; }
+
+  /* Print */
+  @media print {
+    .section-header { page-break-before: always; }
+    .code-block { page-break-inside: avoid; }
+    .card { page-break-inside: avoid; }
+  }
+  
+  /* Anchor targets */
+  [id] { scroll-margin-top: 20px; }
+  
+  /* Algo comparison strip */
+  .algo-strip { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+  .algo-chip { background: var(--primary); color: white; border-radius: 20px; padding: 5px 14px; font-size: 0.82em; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ COVER -->
+<div class="cover">
+  <div style="font-size:3em; margin-bottom:16px">🏥🤖</div>
+  <h1>AI in Healthcare</h1>
+  <h2>Complete Study Notes — June Series</h2>
+  <div style="margin-top:20px">
+    <span class="badge">📊 Machine Learning</span>
+    <span class="badge">🐍 Python</span>
+    <span class="badge">🧠 Deep Learning</span>
+    <span class="badge">🏥 Healthcare Applications</span>
+  </div>
+  <div style="margin-top:20px">
+    <span class="badge">EDA</span>
+    <span class="badge">Feature Engineering</span>
+    <span class="badge">KNN</span>
+    <span class="badge">Naive Bayes</span>
+    <span class="badge">SVM</span>
+    <span class="badge">Random Forest</span>
+    <span class="badge">XGBoost</span>
+    <span class="badge">CNN</span>
+  </div>
+  <div class="meta">
+    <p>Compiled from lecture PPTs, notes, docx files &amp; lecture screenshots</p>
+    <p style="margin-top:6px">July 2026</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ TOC -->
+<div class="toc-page" id="toc">
+  <h2>📋 Table of Contents</h2>
+
+  <div class="toc-section">
+    <a href="#s1" class="toc-main"><span>1 · Python for Data Science</span><span class="toc-dot"></span><span class="toc-num">p. 3</span></a>
+    <a href="#s1-numpy" class="toc-sub"><span>1.1 NumPy</span><span class="toc-dot"></span><span class="toc-num">p. 3</span></a>
+    <a href="#s1-pandas" class="toc-sub"><span>1.2 Pandas</span><span class="toc-dot"></span><span class="toc-num">p. 5</span></a>
+    <a href="#s1-matplotlib" class="toc-sub"><span>1.3 Matplotlib</span><span class="toc-dot"></span><span class="toc-num">p. 7</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s2" class="toc-main"><span>2 · ML Algorithm Overview</span><span class="toc-dot"></span><span class="toc-num">p. 9</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s3" class="toc-main"><span>3 · Exploratory Data Analysis (EDA)</span><span class="toc-dot"></span><span class="toc-num">p. 11</span></a>
+    <a href="#s3-types" class="toc-sub"><span>3.1 Types of EDA</span><span class="toc-dot"></span><span class="toc-num">p. 11</span></a>
+    <a href="#s3-steps" class="toc-sub"><span>3.2 EDA Steps</span><span class="toc-dot"></span><span class="toc-num">p. 12</span></a>
+    <a href="#s3-viz" class="toc-sub"><span>3.3 Visualization Techniques</span><span class="toc-dot"></span><span class="toc-num">p. 13</span></a>
+    <a href="#s3-pca" class="toc-sub"><span>3.4 PCA</span><span class="toc-dot"></span><span class="toc-num">p. 14</span></a>
+    <a href="#s3-adv" class="toc-sub"><span>3.5 Descriptive Statistics</span><span class="toc-dot"></span><span class="toc-num">p. 15</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s4" class="toc-main"><span>4 · Feature Engineering</span><span class="toc-dot"></span><span class="toc-num">p. 17</span></a>
+    <a href="#s4-types" class="toc-sub"><span>4.1 Types &amp; Techniques</span><span class="toc-dot"></span><span class="toc-num">p. 17</span></a>
+    <a href="#s4-selection" class="toc-sub"><span>4.2 Feature Selection Methods</span><span class="toc-dot"></span><span class="toc-num">p. 18</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s5" class="toc-main"><span>5 · Bias, Variance &amp; Model Fit</span><span class="toc-dot"></span><span class="toc-num">p. 20</span></a>
+    <a href="#s5-bias" class="toc-sub"><span>5.1 Bias</span><span class="toc-dot"></span><span class="toc-num">p. 20</span></a>
+    <a href="#s5-variance" class="toc-sub"><span>5.2 Variance</span><span class="toc-dot"></span><span class="toc-num">p. 21</span></a>
+    <a href="#s5-tradeoff" class="toc-sub"><span>5.3 Bias–Variance Tradeoff</span><span class="toc-dot"></span><span class="toc-num">p. 22</span></a>
+    <a href="#s5-fit" class="toc-sub"><span>5.4 Overfitting &amp; Underfitting</span><span class="toc-dot"></span><span class="toc-num">p. 23</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s6" class="toc-main"><span>6 · Gradient Descent (Worked Example)</span><span class="toc-dot"></span><span class="toc-num">p. 25</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s7" class="toc-main"><span>7 · K-Nearest Neighbors (KNN)</span><span class="toc-dot"></span><span class="toc-num">p. 27</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s8" class="toc-main"><span>8 · Naïve Bayes</span><span class="toc-dot"></span><span class="toc-num">p. 29</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s9" class="toc-main"><span>9 · Support Vector Machine (SVM)</span><span class="toc-dot"></span><span class="toc-num">p. 32</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s10" class="toc-main"><span>10 · Random Forest</span><span class="toc-dot"></span><span class="toc-num">p. 35</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s11" class="toc-main"><span>11 · XGBoost</span><span class="toc-dot"></span><span class="toc-num">p. 38</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s12" class="toc-main"><span>12 · Deep Learning &amp; CNN Intro</span><span class="toc-dot"></span><span class="toc-num">p. 41</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s13" class="toc-main"><span>13 · ML Algorithms Quick Reference</span><span class="toc-dot"></span><span class="toc-num">p. 44</span></a>
+  </div>
+
+  <div class="toc-section">
+    <a href="#s14" class="toc-main"><span>14 · How to Share Google Colab Code</span><span class="toc-dot"></span><span class="toc-num">p. 46</span></a>
+  </div>
+</div>
+<div class="page-num">— Table of Contents —</div>
+
+<!-- ═══════════════════════════════════════════ SECTION 1: PYTHON -->
+<div class="page">
+<div class="section-header" id="s1">
+  <div class="section-num">Section 1</div>
+  <h2>🐍 Python for Data Science</h2>
+</div>
+
+<div class="callout callout-blue">
+  <h4>📌 Why Python?</h4>
+  The data science stack in Python rests on three core libraries: <strong>NumPy</strong> for numerical arrays, <strong>Pandas</strong> for tabular data, and <strong>Matplotlib</strong> for visualisation. Every ML workflow begins here.
+</div>
+
+<!-- 1.1 NumPy -->
+<div class="subsection-header" id="s1-numpy"><h3>1.1 NumPy — Numerical Python</h3></div>
+<p>NumPy provides the <strong>ndarray</strong> object — a fast, multi-dimensional array — plus mathematical functions that operate on entire arrays without Python loops.</p>
+
+<div class="code-block"><span class="code-label">Python</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># ── Creating Arrays ──────────────────────────────</span>
+arr_1d = np.array([<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>])               <span class="cm"># 1D</span>
+arr_2d = np.array([[<span class="nm">1</span>,<span class="nm">2</span>],[<span class="nm">3</span>,<span class="nm">4</span>]])             <span class="cm"># 2D</span>
+zeros  = np.zeros((<span class="nm">3</span>, <span class="nm">3</span>))
+ones   = np.ones((<span class="nm">2</span>, <span class="nm">4</span>))
+rng    = np.arange(<span class="nm">0</span>, <span class="nm">10</span>, <span class="nm">2</span>)               <span class="cm"># [0 2 4 6 8]</span>
+lin    = np.linspace(<span class="nm">0</span>, <span class="nm">1</span>, <span class="nm">5</span>)              <span class="cm"># 5 equally spaced pts</span>
+
+<span class="cm"># ── Array Attributes ─────────────────────────────</span>
+arr = np.array([[<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>],[<span class="nm">4</span>,<span class="nm">5</span>,<span class="nm">6</span>]])
+<span class="fn">print</span>(arr.shape)   <span class="cm"># (2, 3)</span>
+<span class="fn">print</span>(arr.ndim)    <span class="cm"># 2</span>
+<span class="fn">print</span>(arr.dtype)   <span class="cm"># int64</span>
+<span class="fn">print</span>(arr.size)    <span class="cm"># 6</span>
+
+<span class="cm"># ── Element-wise Operations ──────────────────────</span>
+a = np.array([<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>]); b = np.array([<span class="nm">4</span>,<span class="nm">5</span>,<span class="nm">6</span>])
+<span class="fn">print</span>(a + b)       <span class="cm"># [5 7 9]</span>
+<span class="fn">print</span>(a * b)       <span class="cm"># [4 10 18]</span>
+
+<span class="cm"># ── Matrix Operations ────────────────────────────</span>
+A = np.array([[<span class="nm">1</span>,<span class="nm">2</span>],[<span class="nm">3</span>,<span class="nm">4</span>]])
+B = np.array([[<span class="nm">5</span>,<span class="nm">6</span>],[<span class="nm">7</span>,<span class="nm">8</span>]])
+<span class="fn">print</span>(np.dot(A, B))    <span class="cm"># matrix multiply</span>
+<span class="fn">print</span>(A.T)             <span class="cm"># transpose</span>
+
+<span class="cm"># ── Aggregation ──────────────────────────────────</span>
+arr = np.array([<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>,<span class="nm">4</span>])
+<span class="fn">print</span>(arr.sum(), arr.mean(), arr.max(), arr.min())  <span class="cm"># 10, 2.5, 4, 1</span>
+
+<span class="cm"># ── Indexing & Slicing ───────────────────────────</span>
+arr2 = np.array([[<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>],[<span class="nm">4</span>,<span class="nm">5</span>,<span class="nm">6</span>]])
+<span class="fn">print</span>(arr2[<span class="nm">0</span>, <span class="nm">1</span>])   <span class="cm"># 2  — row 0, col 1</span>
+<span class="fn">print</span>(arr2[:, <span class="nm">1</span>])   <span class="cm"># [2 5] — all rows, col 1</span>
+<span class="fn">print</span>(arr2[<span class="nm">1</span>, :])   <span class="cm"># [4 5 6] — row 1</span>
+
+<span class="cm"># ── Advanced ─────────────────────────────────────</span>
+arr.reshape(<span class="nm">3</span>, <span class="nm">4</span>)                   <span class="cm"># reshape</span>
+arr + <span class="nm">10</span>                              <span class="cm"># broadcasting</span>
+arr[arr > <span class="nm">3</span>]                          <span class="cm"># boolean masking → [4 5]</span>
+np.random.rand(<span class="nm">3</span>, <span class="nm">3</span>)                 <span class="cm"># uniform random</span>
+np.random.randn(<span class="nm">3</span>, <span class="nm">3</span>)                <span class="cm"># normal random</span></div>
+
+<div class="grid-2">
+  <div class="callout callout-green">
+    <h4>✅ Key Strengths</h4>
+    <ul class="key-points">
+      <li>Vectorised operations — no Python loops needed</li>
+      <li>Broadcasting — operate arrays of different shapes</li>
+      <li>Foundation for Pandas, Scikit-learn, TensorFlow</li>
+    </ul>
+  </div>
+  <div class="callout callout-orange">
+    <h4>⚡ Common Functions</h4>
+    <code>np.dot · np.zeros · np.ones · np.arange · np.linspace · np.reshape · np.random.rand · np.concatenate · np.mean · np.std</code>
+  </div>
+</div>
+
+<!-- 1.2 Pandas -->
+<div class="subsection-header" id="s1-pandas"><h3>1.2 Pandas — Tabular Data</h3></div>
+<p>Pandas introduces two structures: <strong>Series</strong> (1D labelled array) and <strong>DataFrame</strong> (2D table). It is the standard tool for loading, cleaning, and exploring datasets.</p>
+
+<div class="code-block"><span class="code-label">Python</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># ── Series ───────────────────────────────────────</span>
+s = pd.Series([<span class="nm">10</span>,<span class="nm">20</span>,<span class="nm">30</span>,<span class="nm">40</span>], index=[<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'c'</span>,<span class="st">'d'</span>])
+
+<span class="cm"># ── DataFrame ────────────────────────────────────</span>
+data = {<span class="st">"Name"</span>: [<span class="st">"Alice"</span>,<span class="st">"Bob"</span>,<span class="st">"Charlie"</span>],
+        <span class="st">"Age"</span>:  [<span class="nm">25</span>, <span class="nm">30</span>, <span class="nm">35</span>],
+        <span class="st">"City"</span>: [<span class="st">"New York"</span>,<span class="st">"Los Angeles"</span>,<span class="st">"Chicago"</span>]}
+df = pd.DataFrame(data)
+
+<span class="cm"># ── Read / Write ─────────────────────────────────</span>
+df = pd.read_csv(<span class="st">'data.csv'</span>)
+df.to_csv(<span class="st">'output.csv'</span>, index=<span class="kw">False</span>)
+
+<span class="cm"># ── Inspect ──────────────────────────────────────</span>
+df.head()          <span class="cm"># first 5 rows</span>
+df.tail()          <span class="cm"># last 5 rows</span>
+df.info()          <span class="cm"># dtypes + nulls</span>
+df.describe()      <span class="cm"># statistical summary</span>
+df.shape           <span class="cm"># (rows, cols)</span>
+
+<span class="cm"># ── Select / Filter ──────────────────────────────</span>
+df[<span class="st">"Name"</span>]                  <span class="cm"># single column (Series)</span>
+df[[<span class="st">"Name"</span>,<span class="st">"Age"</span>]]          <span class="cm"># multiple columns</span>
+df[df[<span class="st">"Age"</span>] > <span class="nm">30</span>]          <span class="cm"># boolean filter</span>
+df.loc[<span class="nm">0</span>, <span class="st">"Name"</span>]          <span class="cm"># by label</span>
+df.iloc[<span class="nm">0</span>, <span class="nm">1</span>]              <span class="cm"># by position</span>
+
+<span class="cm"># ── Mutate ───────────────────────────────────────</span>
+df[<span class="st">"Salary"</span>] = [<span class="nm">50000</span>,<span class="nm">60000</span>,<span class="nm">70000</span>]   <span class="cm"># add column</span>
+df.drop(<span class="st">"Salary"</span>, axis=<span class="nm">1</span>, inplace=<span class="kw">True</span>)
+
+<span class="cm"># ── Groupby & Aggregate ──────────────────────────</span>
+df.groupby(<span class="st">"City"</span>)[<span class="st">"Age"</span>].mean()
+
+<span class="cm"># ── Handle Missing ───────────────────────────────</span>
+df.isnull().sum()              <span class="cm"># count nulls per col</span>
+df.fillna(df.mean())           <span class="cm"># fill with column mean</span>
+df.dropna()                    <span class="cm"># drop rows with any null</span>
+
+<span class="cm"># ── Useful methods ───────────────────────────────</span>
+df.sort_values(<span class="st">"Age"</span>, ascending=<span class="kw">False</span>)
+df.value_counts()
+df.corr()                      <span class="cm"># correlation matrix</span></div>
+
+<table>
+  <tr><th>Method</th><th>What it does</th></tr>
+  <tr><td><code>df.head(n)</code></td><td>First n rows (default 5)</td></tr>
+  <tr><td><code>df.describe()</code></td><td>count, mean, std, min, Q1, median, Q3, max</td></tr>
+  <tr><td><code>df.info()</code></td><td>Column names, dtypes, non-null counts</td></tr>
+  <tr><td><code>df.isnull().sum()</code></td><td>Count missing values per column</td></tr>
+  <tr><td><code>df.groupby(col).agg()</code></td><td>Split-apply-combine</td></tr>
+  <tr><td><code>df.corr()</code></td><td>Pairwise Pearson correlation</td></tr>
+  <tr><td><code>df.sort_values(col)</code></td><td>Sort by column</td></tr>
+</table>
+
+<!-- 1.3 Matplotlib -->
+<div class="subsection-header" id="s1-matplotlib"><h3>1.3 Matplotlib — Visualisation</h3></div>
+<p>Matplotlib's <code>pyplot</code> module provides MATLAB-style plotting. It is the backbone behind Seaborn and Pandas' built-in plot methods.</p>
+
+<div class="code-block"><span class="code-label">Python</span>
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+<span class="cm"># ── Line Plot ────────────────────────────────────</span>
+x = [<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>,<span class="nm">4</span>,<span class="nm">5</span>];  y = [<span class="nm">10</span>,<span class="nm">20</span>,<span class="nm">25</span>,<span class="nm">30</span>,<span class="nm">35</span>]
+plt.plot(x, y, marker=<span class="st">'o'</span>, linestyle=<span class="st">'--'</span>, color=<span class="st">'r'</span>)
+plt.title(<span class="st">"Line Plot"</span>); plt.xlabel(<span class="st">"X"</span>); plt.ylabel(<span class="st">"Y"</span>)
+plt.show()
+
+<span class="cm"># ── Scatter Plot ─────────────────────────────────</span>
+plt.scatter(x, y, color=<span class="st">'blue'</span>)
+plt.title(<span class="st">"Scatter Plot"</span>); plt.show()
+
+<span class="cm"># ── Bar Chart ────────────────────────────────────</span>
+cats = [<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>]; vals = [<span class="nm">3</span>,<span class="nm">7</span>,<span class="nm">8</span>,<span class="nm">5</span>]
+plt.bar(cats, vals, color=<span class="st">'orange'</span>); plt.show()
+
+<span class="cm"># ── Histogram ────────────────────────────────────</span>
+data = [<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">2</span>,<span class="nm">3</span>,<span class="nm">3</span>,<span class="nm">3</span>,<span class="nm">4</span>,<span class="nm">4</span>,<span class="nm">5</span>,<span class="nm">5</span>,<span class="nm">5</span>,<span class="nm">5</span>]
+plt.hist(data, bins=<span class="nm">5</span>, color=<span class="st">'green'</span>, edgecolor=<span class="st">'black'</span>); plt.show()
+
+<span class="cm"># ── Pie Chart ────────────────────────────────────</span>
+labels = [<span class="st">'A'</span>,<span class="st">'B'</span>,<span class="st">'C'</span>,<span class="st">'D'</span>]; sizes = [<span class="nm">10</span>,<span class="nm">20</span>,<span class="nm">30</span>,<span class="nm">40</span>]
+plt.pie(sizes, labels=labels, autopct=<span class="st">'%1.1f%%'</span>, startangle=<span class="nm">90</span>); plt.show()
+
+<span class="cm"># ── Subplots ─────────────────────────────────────</span>
+plt.figure(figsize=(<span class="nm">8</span>,<span class="nm">5</span>))          <span class="cm"># set canvas size</span>
+plt.subplot(<span class="nm">2</span>,<span class="nm">1</span>,<span class="nm">1</span>)                 <span class="cm"># (rows, cols, index)</span>
+plt.plot([<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>],[<span class="nm">4</span>,<span class="nm">5</span>,<span class="nm">6</span>]); plt.title(<span class="st">"Top"</span>)
+plt.subplot(<span class="nm">2</span>,<span class="nm">1</span>,<span class="nm">2</span>)
+plt.plot([<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>],[<span class="nm">6</span>,<span class="nm">5</span>,<span class="nm">4</span>]); plt.title(<span class="st">"Bottom"</span>)
+plt.tight_layout(); plt.show()
+
+<span class="cm"># ── Customisation ────────────────────────────────</span>
+plt.grid(<span class="kw">True</span>)
+plt.legend()
+plt.savefig(<span class="st">"plot.png"</span>, dpi=<span class="nm">300</span>)   <span class="cm"># save high-res</span></div>
+
+<div class="grid-3">
+  <div class="card" style="border-top:4px solid #1976d2">
+    <strong>Line Plot</strong><br>
+    <span style="color:var(--muted);font-size:0.9em">Trends over time / continuous data</span>
+  </div>
+  <div class="card" style="border-top:4px solid #388e3c">
+    <strong>Scatter Plot</strong><br>
+    <span style="color:var(--muted);font-size:0.9em">Relationship between 2 numeric vars</span>
+  </div>
+  <div class="card" style="border-top:4px solid #f57c00">
+    <strong>Bar Chart</strong><br>
+    <span style="color:var(--muted);font-size:0.9em">Category comparisons</span>
+  </div>
+  <div class="card" style="border-top:4px solid #7b1fa2">
+    <strong>Histogram</strong><br>
+    <span style="color:var(--muted);font-size:0.9em">Distribution of numeric data</span>
+  </div>
+  <div class="card" style="border-top:4px solid #c62828">
+    <strong>Pie Chart</strong><br>
+    <span style="color:var(--muted);font-size:0.9em">Proportions of a whole</span>
+  </div>
+  <div class="card" style="border-top:4px solid #00897b">
+    <strong>Heatmap</strong><br>
+    <span style="color:var(--muted);font-size:0.9em">Correlation matrix / 2D density</span>
+  </div>
+</div>
+</div>
+<div class="page-num">Section 1 · Python for Data Science &nbsp;|&nbsp; Page 3–8</div>
+
+<!-- ════════════════════════════════════════ SECTION 2: ML OVERVIEW -->
+<div class="page">
+<div class="section-header" id="s2">
+  <div class="section-num">Section 2</div>
+  <h2>🗺️ ML Algorithm Overview</h2>
+</div>
+
+<div class="screenshot-note">
+  📸 <strong>From lecture screenshot (Jul 18):</strong> Teams meeting slide showing ML algorithms table — confirmed in class.
+</div>
+
+<table>
+  <tr><th>Sl.No.</th><th>Algorithm</th><th>Learning Type</th><th>Best Use Case</th><th>Healthcare Example</th></tr>
+  <tr><td>1</td><td><strong>Linear Regression</strong></td><td><span class="tag tag-blue">Supervised</span></td><td>Predict continuous values</td><td>Predicting patient vitals over time</td></tr>
+  <tr><td>2</td><td><strong>Logistic Regression</strong></td><td><span class="tag tag-blue">Supervised</span></td><td>Binary classification</td><td>Disease present / absent</td></tr>
+  <tr><td>3</td><td><strong>Decision Tree</strong></td><td><span class="tag tag-blue">Supervised</span></td><td>Classification &amp; regression</td><td>Diagnosis flowchart</td></tr>
+  <tr><td>4</td><td><strong>K-Nearest Neighbors</strong></td><td><span class="tag tag-blue">Supervised</span></td><td>Few-shot classification</td><td>Patient similarity matching</td></tr>
+  <tr><td>5</td><td><strong>Naïve Bayes</strong></td><td><span class="tag tag-blue">Supervised</span></td><td>Text / probability</td><td>Medical report classification</td></tr>
+  <tr><td>6</td><td><strong>SVM</strong></td><td><span class="tag tag-blue">Supervised</span></td><td>Max-margin classification</td><td>Cancer cell detection</td></tr>
+  <tr><td>7</td><td><strong>Random Forest</strong></td><td><span class="tag tag-blue">Supervised</span></td><td>Ensemble accuracy</td><td>Fraud detection in insurance</td></tr>
+  <tr><td>8</td><td><strong>K-Means Clustering</strong></td><td><span class="tag tag-green">Unsupervised</span></td><td>Customer/patient segmentation</td><td>Grouping patient profiles</td></tr>
+  <tr><td>9</td><td><strong>PCA</strong></td><td><span class="tag tag-green">Unsupervised</span></td><td>Dimensionality reduction</td><td>Gene expression analysis</td></tr>
+  <tr><td>10</td><td><strong>Gradient Boosting / XGBoost</strong></td><td><span class="tag tag-blue">Supervised</span></td><td>High-performance modelling</td><td>Diabetes / heart disease prediction</td></tr>
+</table>
+
+<div class="subsection-header"><h3>Learning Type Definitions</h3></div>
+<div class="grid-2">
+  <div class="callout callout-blue">
+    <h4>🎓 Supervised Learning</h4>
+    Trained on <strong>labelled data</strong> (input → known output). The model learns a mapping function. Used when you have historical examples with correct answers.
+    <br><br><span class="tag tag-blue">Classification</span> <span class="tag tag-blue">Regression</span>
+  </div>
+  <div class="callout callout-green">
+    <h4>🔍 Unsupervised Learning</h4>
+    Trained on <strong>unlabelled data</strong>. The model discovers hidden patterns or groupings on its own. No predefined correct answer.
+    <br><br><span class="tag tag-green">Clustering</span> <span class="tag tag-green">Dimensionality Reduction</span>
+  </div>
+</div>
+
+<div class="subsection-header"><h3>ML Lifecycle</h3></div>
+<div class="diagram">
+  Raw Data → [Data Cleaning] → [EDA] → [Feature Engineering]
+                                              ↓
+  [Model Evaluation] ← [Model Training] ← [Feature Selection]
+                ↓
+  [Hyperparameter Tuning] → [Deployment] → [Monitoring]
+</div>
+
+<div class="callout callout-purple">
+  <h4>🏥 AI Applications in Healthcare</h4>
+  <ul class="key-points">
+    <li>Diagnostic imaging — CNN for X-ray, MRI, CT scan analysis</li>
+    <li>Disease prediction — Diabetes, cancer, heart disease risk scoring</li>
+    <li>Drug discovery — Identifying candidate molecules</li>
+    <li>Clinical NLP — Extracting info from medical records</li>
+    <li>Patient monitoring — Anomaly detection in vital signs</li>
+    <li>Personalised medicine — Tailoring treatment using patient features</li>
+  </ul>
+</div>
+</div>
+<div class="page-num">Section 2 · ML Algorithm Overview &nbsp;|&nbsp; Page 9–10</div>
+
+<!-- ════════════════════════════════════════ SECTION 3: EDA -->
+<div class="page">
+<div class="section-header" id="s3">
+  <div class="section-num">Section 3</div>
+  <h2>📊 Exploratory Data Analysis (EDA)</h2>
+</div>
+
+<div class="callout callout-blue">
+  <h4>📌 What is EDA?</h4>
+  EDA is the process of exploring, summarising, and visualising data to understand its <strong>structure</strong>, detect <strong>patterns</strong>, identify <strong>anomalies</strong>, and test <strong>assumptions</strong> before applying ML models.
+</div>
+
+<div class="subsection-header" id="s3-types"><h3>3.1 Types of EDA</h3></div>
+<div class="grid-3">
+  <div class="card" style="border-top:4px solid #1976d2">
+    <strong>Univariate Analysis</strong>
+    <p style="color:var(--muted);font-size:0.9em;margin-top:6px">Studies <em>one variable</em> at a time</p>
+    <ul style="font-size:0.88em;margin-top:8px">
+      <li>Histogram</li>
+      <li>Box plot</li>
+      <li>Bar chart</li>
+    </ul>
+  </div>
+  <div class="card" style="border-top:4px solid #388e3c">
+    <strong>Bivariate Analysis</strong>
+    <p style="color:var(--muted);font-size:0.9em;margin-top:6px">Relationship between <em>two variables</em></p>
+    <ul style="font-size:0.88em;margin-top:8px">
+      <li>Scatter plot</li>
+      <li>Correlation coefficient</li>
+      <li>Cross-tabulation</li>
+      <li>Line graph</li>
+      <li>Covariance</li>
+    </ul>
+  </div>
+  <div class="card" style="border-top:4px solid #7b1fa2">
+    <strong>Multivariate Analysis</strong>
+    <p style="color:var(--muted);font-size:0.9em;margin-top:6px">Three or more variables together</p>
+    <ul style="font-size:0.88em;margin-top:8px">
+      <li>Pair plots</li>
+      <li>PCA</li>
+      <li>Spatial analysis</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsection-header" id="s3-steps"><h3>3.2 The 8 Steps of EDA</h3></div>
+
+<div class="card">
+  <table style="box-shadow:none;margin:0">
+    <tr><th style="width:50px">Step</th><th>Action</th><th>Key Checks</th></tr>
+    <tr><td style="text-align:center;font-size:1.3em">1️⃣</td><td><strong>Understand the Problem &amp; Data</strong></td><td>What is the goal? What variables exist? Any known limitations?</td></tr>
+    <tr><td style="text-align:center;font-size:1.3em">2️⃣</td><td><strong>Import &amp; Inspect</strong></td><td>Rows/cols, data types, missing values, unusual entries</td></tr>
+    <tr><td style="text-align:center;font-size:1.3em">3️⃣</td><td><strong>Handle Missing Data</strong></td><td>Why missing? Remove vs impute (mean/median/KNN/DT)</td></tr>
+    <tr><td style="text-align:center;font-size:1.3em">4️⃣</td><td><strong>Explore Characteristics</strong></td><td>Distribution, central tendency, std dev, skewness, kurtosis, outliers</td></tr>
+    <tr><td style="text-align:center;font-size:1.3em">5️⃣</td><td><strong>Data Transformation</strong></td><td>Scale/normalise, encode categoricals, log transform, create new features</td></tr>
+    <tr><td style="text-align:center;font-size:1.3em">6️⃣</td><td><strong>Visualise Relationships</strong></td><td>Bar, histogram, box, scatter, heatmap</td></tr>
+    <tr><td style="text-align:center;font-size:1.3em">7️⃣</td><td><strong>Handle Outliers</strong></td><td>IQR method, Z-score; cap, transform, or remove</td></tr>
+    <tr><td style="text-align:center;font-size:1.3em">8️⃣</td><td><strong>Communicate Findings</strong></td><td>State goal, show visualisations, highlight insights, note limitations</td></tr>
+  </table>
+</div>
+
+<div class="subsection-header" id="s3-viz"><h3>3.3 Visualisation Techniques</h3></div>
+<table>
+  <tr><th>Chart</th><th>Best For</th><th>Not Suitable When</th></tr>
+  <tr><td><strong>Bar Plot</strong></td><td>Frequency of categories</td><td>Continuous data or too many distinct values</td></tr>
+  <tr><td><strong>Stacked Bar</strong></td><td>Sub-category proportions within categories</td><td>Too many sub-categories</td></tr>
+  <tr><td><strong>Histogram</strong></td><td>Distribution of continuous data</td><td>Heavy outliers skewing interpretation</td></tr>
+  <tr><td><strong>Box Plot</strong></td><td>Spread, quartiles, outlier detection</td><td>Very small datasets</td></tr>
+  <tr><td><strong>Violin Plot</strong></td><td>Distribution + density across groups</td><td>Comparing only two groups (box plot simpler)</td></tr>
+  <tr><td><strong>Pie Chart</strong></td><td>Proportions of a whole (few categories)</td><td>Many categories or precise comparisons needed</td></tr>
+  <tr><td><strong>Correlation Heatmap</strong></td><td>Checking multicollinearity between features</td><td>Very large number of variables (gets cluttered)</td></tr>
+  <tr><td><strong>Scatter Plot</strong></td><td>Relationship between two numerical variables</td><td>Categorical vs categorical comparisons</td></tr>
+</table>
+
+<div class="callout callout-teal">
+  <h4>📦 Box Plot Anatomy</h4>
+  <div class="diagram" style="background:#e0f2f1;border:none">
+  Minimum --- [Q1 ===== Median ===== Q3] --- Maximum
+                           ↕
+                    IQR = Q3 − Q1
+  Outliers: values below Q1 − 1.5×IQR  or  above Q3 + 1.5×IQR
+  </div>
+</div>
+
+<!-- 3.4 PCA -->
+<div class="subsection-header" id="s3-pca"><h3>3.4 Principal Component Analysis (PCA)</h3></div>
+<div class="callout callout-purple">
+  <h4>📌 What is PCA?</h4>
+  PCA is a <strong>dimensionality reduction</strong> technique that transforms correlated features into a smaller set of <strong>uncorrelated principal components</strong> while preserving the most important information (variance).
+</div>
+
+<div class="card">
+  <strong>How PCA Works — Step by Step</strong>
+  <ol style="margin-top:10px">
+    <li><strong>Standardise the data</strong> — zero mean, unit variance</li>
+    <li><strong>Compute the covariance matrix</strong> — captures feature relationships</li>
+    <li><strong>Calculate eigenvectors &amp; eigenvalues</strong> — eigenvectors = principal directions; eigenvalues = importance (variance explained)</li>
+    <li><strong>Rank components</strong> by eigenvalue (largest first)</li>
+    <li><strong>Select top k components</strong> that capture ≥95% variance</li>
+    <li><strong>Project data</strong> onto selected components → reduced dataset</li>
+  </ol>
+</div>
+
+<div class="formula">
+  Covariance Matrix → Eigenvectors (directions) + Eigenvalues (importance)
+  <br>
+  New Feature = X · W   where W = matrix of top-k eigenvectors
+</div>
+
+<div class="grid-2">
+  <div class="callout callout-green">
+    <h4>✅ When to use PCA</h4>
+    <ul class="key-points">
+      <li>Too many features (curse of dimensionality)</li>
+      <li>Features are highly correlated</li>
+      <li>Want to speed up training</li>
+      <li>Visualise high-dim data in 2D/3D</li>
+    </ul>
+  </div>
+  <div class="callout callout-orange">
+    <h4>⚠️ Limitations</h4>
+    <ul class="key-points">
+      <li>Components lose interpretability</li>
+      <li>Assumes linear relationships</li>
+      <li>Sensitive to feature scaling — always standardise first</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 3.5 Advanced EDA / Descriptive Statistics -->
+<div class="subsection-header" id="s3-adv"><h3>3.5 Descriptive Statistics</h3></div>
+<table>
+  <tr><th>Statistic</th><th>Formula / Idea</th><th>Best Used When</th><th>Avoid When</th></tr>
+  <tr><td><strong>Mean</strong></td><td>Σx / n</td><td>Symmetric distributions, no extreme outliers</td><td>Skewed data or outliers present</td></tr>
+  <tr><td><strong>Median</strong></td><td>Middle value after sorting</td><td>Skewed distributions or outliers</td><td>Symmetric data where exact average needed</td></tr>
+  <tr><td><strong>Mode</strong></td><td>Most frequent value</td><td>Categorical / discrete data</td><td>Continuous data without repeats</td></tr>
+  <tr><td><strong>Std Deviation</strong></td><td>√(Σ(x−μ)² / n)</td><td>Understanding spread around mean</td><td>Outlier-heavy data (use IQR instead)</td></tr>
+  <tr><td><strong>IQR</strong></td><td>Q3 − Q1</td><td>Outlier detection, robust spread</td><td>When exact variance is needed</td></tr>
+  <tr><td><strong>Skewness</strong></td><td>Asymmetry of distribution</td><td>Deciding if log-transform needed</td><td>Already normally distributed data</td></tr>
+</table>
+
+<div class="callout callout-blue">
+  <h4>📐 Skewness Interpretation</h4>
+  <strong>Positive skew (right tail):</strong> Mean &gt; Median &gt; Mode — outliers pull mean up<br>
+  <strong>Negative skew (left tail):</strong> Mean &lt; Median &lt; Mode — outliers pull mean down<br>
+  <strong>Zero skew:</strong> Symmetric / normal distribution
+</div>
+</div>
+<div class="page-num">Section 3 · Exploratory Data Analysis &nbsp;|&nbsp; Page 11–16</div>
+
+<!-- ════════════════════════════════ SECTION 4: FEATURE ENGINEERING -->
+<div class="page">
+<div class="section-header" id="s4">
+  <div class="section-num">Section 4</div>
+  <h2>⚙️ Feature Engineering</h2>
+</div>
+
+<div class="callout callout-blue">
+  <h4>📌 Definition</h4>
+  Feature Engineering is the process of <strong>selecting, creating, or modifying features</strong> (input variables) to help ML models learn patterns more effectively. It transforms raw data into meaningful inputs that improve model accuracy.
+</div>
+
+<div class="grid-2">
+  <div class="callout callout-green">
+    <h4>✅ Why It Matters</h4>
+    <ul class="key-points">
+      <li><strong>Improve accuracy</strong> — better features → better learning</li>
+      <li><strong>Reduce overfitting</strong> — fewer, more relevant features</li>
+      <li><strong>Boost interpretability</strong> — understand model decisions</li>
+      <li><strong>Enhance efficiency</strong> — faster training</li>
+    </ul>
+  </div>
+  <div class="callout callout-orange">
+    <h4>🔄 General Steps</h4>
+    <ol style="padding-left:18px;font-size:0.93em">
+      <li>Data Cleaning</li>
+      <li>Data Transformation</li>
+      <li>Feature Extraction</li>
+      <li>Feature Selection</li>
+      <li>Feature Iteration (based on model performance)</li>
+    </ol>
+  </div>
+</div>
+
+<div class="subsection-header" id="s4-types"><h3>4.1 Types of Feature Engineering</h3></div>
+<table>
+  <tr><th>Type</th><th>What it Does</th><th>Examples</th></tr>
+  <tr>
+    <td><strong>Feature Creation</strong></td>
+    <td>Generate new features from domain knowledge or data patterns</td>
+    <td>BMI = weight/height², age × glucose, interaction terms</td>
+  </tr>
+  <tr>
+    <td><strong>Feature Transformation</strong></td>
+    <td>Adjust features to improve learning</td>
+    <td>Normalisation, standardisation, one-hot encoding, log transform</td>
+  </tr>
+  <tr>
+    <td><strong>Feature Extraction</strong></td>
+    <td>Transform to lower-dimensional or more informative representation</td>
+    <td>PCA, aggregation, text embeddings</td>
+  </tr>
+  <tr>
+    <td><strong>Feature Selection</strong></td>
+    <td>Choose the most useful subset of features</td>
+    <td>Filter, wrapper, embedded methods</td>
+  </tr>
+  <tr>
+    <td><strong>Feature Scaling</strong></td>
+    <td>Ensure all features contribute equally</td>
+    <td>Min-Max (0–1), Standard scaling (μ=0, σ=1)</td>
+  </tr>
+</table>
+
+<div class="grid-2">
+  <div class="card">
+    <strong>Min-Max Scaling</strong>
+    <div class="formula" style="margin-top:10px;font-size:0.95em">
+      x' = (x − x_min) / (x_max − x_min)
+      <br><small style="color:var(--muted)">Output range: [0, 1]</small>
+    </div>
+    Use when: algorithm is distance-based (KNN, SVM, Neural Nets)
+  </div>
+  <div class="card">
+    <strong>Standard Scaling (Z-score)</strong>
+    <div class="formula" style="margin-top:10px;font-size:0.95em">
+      x' = (x − μ) / σ
+      <br><small style="color:var(--muted)">Output: mean=0, std=1</small>
+    </div>
+    Use when: data approximately normal; needed for PCA, logistic regression
+  </div>
+</div>
+
+<div class="subsection-header" id="s4-selection"><h3>4.2 Feature Selection Methods</h3></div>
+
+<div class="callout callout-purple">
+  <h4>📌 Why Feature Selection?</h4>
+  Removing irrelevant/redundant features improves accuracy, reduces noise, speeds up training, makes models more interpretable, and helps avoid the <strong>curse of dimensionality</strong>.
+</div>
+
+<div class="grid-3">
+  <div class="card" style="border-top:4px solid #1976d2">
+    <strong>1. Filter Methods</strong>
+    <p style="font-size:0.88em;color:var(--muted);margin:6px 0">Evaluate features independently using statistics. Fast, model-agnostic.</p>
+    <ul style="font-size:0.85em">
+      <li>Information Gain</li>
+      <li>Chi-square test</li>
+      <li>Fisher's Score</li>
+      <li>Pearson Correlation</li>
+      <li>Variance Threshold</li>
+    </ul>
+    <span class="tag tag-blue">Fast</span> <span class="tag tag-blue">Model-Independent</span>
+  </div>
+  <div class="card" style="border-top:4px solid #388e3c">
+    <strong>2. Wrapper Methods</strong>
+    <p style="font-size:0.88em;color:var(--muted);margin:6px 0">Evaluate feature subsets by measuring model performance. Slower but thorough.</p>
+    <ul style="font-size:0.85em">
+      <li>Forward Selection</li>
+      <li>Backward Elimination</li>
+      <li>Recursive Feature Elimination (RFE)</li>
+    </ul>
+    <span class="tag tag-green">Accurate</span> <span class="tag tag-orange">Computationally Expensive</span>
+  </div>
+  <div class="card" style="border-top:4px solid #7b1fa2">
+    <strong>3. Embedded Methods</strong>
+    <p style="font-size:0.88em;color:var(--muted);margin:6px 0">Feature selection integrated into model training. Best of both worlds.</p>
+    <ul style="font-size:0.85em">
+      <li>L1 Regularisation (Lasso) — zeros out unimportant features</li>
+      <li>Decision Trees / Random Forest — feature importance scores</li>
+      <li>Gradient Boosting</li>
+    </ul>
+    <span class="tag tag-purple">Integrated</span> <span class="tag tag-green">Efficient</span>
+  </div>
+</div>
+
+<div class="callout callout-teal">
+  <h4>🎯 Choosing the Right Method</h4>
+  <table style="box-shadow:none;margin:6px 0;font-size:0.9em">
+    <tr><th>Situation</th><th>Recommended Method</th></tr>
+    <tr><td>Large dataset, quick results needed</td><td>Filter methods</td></tr>
+    <tr><td>Small dataset, accuracy matters most</td><td>Wrapper methods</td></tr>
+    <tr><td>Using tree-based or regularised models</td><td>Embedded methods</td></tr>
+    <tr><td>Need human interpretability</td><td>Filter methods (correlation, info gain)</td></tr>
+  </table>
+</div>
+</div>
+<div class="page-num">Section 4 · Feature Engineering &nbsp;|&nbsp; Page 17–19</div>
+
+<!-- ════════════════════════════════ SECTION 5: BIAS & VARIANCE -->
+<div class="page">
+<div class="section-header" id="s5">
+  <div class="section-num">Section 5</div>
+  <h2>⚖️ Bias, Variance &amp; Model Fit</h2>
+</div>
+
+<div class="callout callout-blue">
+  <h4>📌 The Core Idea</h4>
+  Bias and Variance are two sources of prediction error. <strong>Bias</strong> = error from overly simplistic assumptions. <strong>Variance</strong> = error from being too sensitive to training data. Every model must balance these two.
+</div>
+
+<div class="subsection-header" id="s5-bias"><h3>5.1 Bias</h3></div>
+<div class="grid-2">
+  <div>
+    <p>Bias is the error introduced by <strong>approximating a complex real-world problem with a simplified model</strong>. It measures how much predictions systematically deviate from true values due to model assumptions.</p>
+    <br>
+    <div class="callout callout-red">
+      <h4>🔴 High Bias (Underfitting)</h4>
+      <ul class="key-points">
+        <li>Model too simple (e.g. linear for non-linear data)</li>
+        <li>Poor performance on <em>both</em> training and test data</li>
+        <li>Misses relevant patterns</li>
+      </ul>
+    </div>
+    <h4>How to Reduce Bias:</h4>
+    <ul class="key-points">
+      <li>Use more complex models (neural nets, ensembles)</li>
+      <li>Add more informative features</li>
+      <li>Reduce regularisation strength</li>
+      <li>Train for more epochs</li>
+    </ul>
+  </div>
+  <div class="card" style="background:#fff5f5;border-left:4px solid #c62828;text-align:center">
+    <strong style="font-size:1.1em">High Bias Visual</strong>
+    <div class="diagram" style="background:#fff5f5;border:none;text-align:left;margin-top:10px">
+Data points:  ● ●  ●  ●  ●
+                  ○ ○ ○ ○ ○
+
+Linear model: ───────────────
+(can't capture the curve)
+
+Result: High error everywhere
+→ UNDERFITTING
+    </div>
+  </div>
+</div>
+
+<div class="subsection-header" id="s5-variance"><h3>5.2 Variance</h3></div>
+<div class="grid-2">
+  <div>
+    <p>Variance is the error from making the model <strong>too sensitive to training data</strong>. It captures noise as if it were real patterns. High variance means predictions change drastically with small changes in training data.</p>
+    <br>
+    <div class="callout callout-orange">
+      <h4>🟠 High Variance (Overfitting)</h4>
+      <ul class="key-points">
+        <li>Model too complex</li>
+        <li>Great on training data, poor on test data</li>
+        <li>Memorises noise and random quirks</li>
+      </ul>
+    </div>
+    <h4>How to Reduce Variance:</h4>
+    <ul class="key-points">
+      <li>Simplify the model / prune decision trees</li>
+      <li>Collect more training data</li>
+      <li>Apply regularisation (L1 / L2)</li>
+      <li>Use dropout (neural networks)</li>
+      <li>Ensemble methods (Bagging, Random Forest)</li>
+    </ul>
+  </div>
+  <div class="card" style="background:#fff8f0;border-left:4px solid #f57c00;text-align:center">
+    <strong style="font-size:1.1em">High Variance Visual</strong>
+    <div class="diagram" style="background:#fff8f0;border:none;text-align:left;margin-top:10px">
+Data points:  ● ●  ●  ●  ●
+                  ○ ○ ○ ○ ○
+
+Complex model: ~∿∿∿∿∿∿∿∿~
+(fits every training point)
+
+Train error: LOW  Test error: HIGH
+→ OVERFITTING
+    </div>
+  </div>
+</div>
+
+<div class="subsection-header" id="s5-tradeoff"><h3>5.3 The Bias–Variance Tradeoff</h3></div>
+<div class="formula">
+  Total Error = Bias² + Variance + Irreducible Noise
+</div>
+
+<div class="card">
+  <table style="box-shadow:none;margin:0">
+    <tr><th>Scenario</th><th>Bias</th><th>Variance</th><th>Training Error</th><th>Test Error</th></tr>
+    <tr><td>Underfitting</td><td style="color:#c62828">High 🔴</td><td style="color:#2e7d32">Low 🟢</td><td>High</td><td>High</td></tr>
+    <tr><td>Overfitting</td><td style="color:#2e7d32">Low 🟢</td><td style="color:#c62828">High 🔴</td><td>Low</td><td>High</td></tr>
+    <tr><td><strong>Good Fit ✅</strong></td><td style="color:#f57c00">Medium</td><td style="color:#f57c00">Medium</td><td>Low-Medium</td><td>Low-Medium</td></tr>
+  </table>
+</div>
+
+<div class="diagram">
+Error
+ │
+ │  ╲                               ╱  ← Total Error
+ │    ╲              ╱╲            ╱
+ │      ╲  Variance ╱    ╲
+ │        ╲        ╱      ╲
+ │   Bias² ╲──────╱        ╲──────╱
+ │
+ └──────────────────────────────────────→ Model Complexity
+         Simple                   Complex
+    (High Bias)             (High Variance)
+                  ↑
+           Sweet Spot = Optimal Complexity
+</div>
+
+<div class="subsection-header" id="s5-fit"><h3>5.4 Overfitting &amp; Underfitting</h3></div>
+<div class="grid-2">
+  <div class="callout callout-red">
+    <h4>🔴 Underfitting (High Bias)</h4>
+    <strong>Causes:</strong>
+    <ul class="key-points">
+      <li>Model too simple</li>
+      <li>Very high regularisation</li>
+      <li>Features weak or missing</li>
+      <li>Insufficient training</li>
+    </ul>
+    <strong>Fix:</strong>
+    <ul class="key-points">
+      <li>Use more complex model</li>
+      <li>Add / engineer features</li>
+      <li>Reduce regularisation</li>
+      <li>Train longer</li>
+      <li>Scale features properly</li>
+    </ul>
+  </div>
+  <div class="callout callout-orange">
+    <h4>🟠 Overfitting (High Variance)</h4>
+    <strong>Causes:</strong>
+    <ul class="key-points">
+      <li>Model too complex</li>
+      <li>Too many features</li>
+      <li>Very little training data</li>
+      <li>No regularisation</li>
+    </ul>
+    <strong>Fix:</strong>
+    <ul class="key-points">
+      <li>Collect more data</li>
+      <li>Reduce model complexity</li>
+      <li>Use L1 / L2 regularisation</li>
+      <li>Apply dropout (neural nets)</li>
+      <li>Early stopping</li>
+      <li>Clean noisy data</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card" style="background:#e8f5e9;border-left:4px solid #388e3c">
+  <strong>🧠 Summary Cheat-sheet</strong>
+  <ul class="key-points" style="margin-top:8px">
+    <li>High Bias → Underfitting = High Bias + Low Variance</li>
+    <li>High Variance → Overfitting = Low Bias + High Variance</li>
+    <li>Goal: Low Bias + Low Variance = good generalisation</li>
+    <li>Deep learning can show unexpected bias-variance dynamics (non-convex optimisation)</li>
+  </ul>
+</div>
+</div>
+<div class="page-num">Section 5 · Bias, Variance &amp; Model Fit &nbsp;|&nbsp; Page 20–24</div>
+
+<!-- ═══════════════════════════ SECTION 6: GRADIENT DESCENT -->
+<div class="page">
+<div class="section-header" id="s6">
+  <div class="section-num">Section 6</div>
+  <h2>📉 Gradient Descent — Worked Example</h2>
+</div>
+
+<div class="screenshot-note">
+  📸 <strong>From lecture handwritten notes (Jul 8 – 4 pages):</strong> Linear Regression gradient descent worked through 4 iterations, showing parameter updates for w and b.
+</div>
+
+<div class="callout callout-blue">
+  <h4>📌 What is Gradient Descent?</h4>
+  An optimisation algorithm that <strong>iteratively adjusts model parameters</strong> (weights w and bias b) to minimise a loss function (e.g. Mean Squared Error) by moving in the direction of steepest descent.
+</div>
+
+<div class="subsection-header"><h3>Linear Regression Setup</h3></div>
+<div class="card">
+  <strong>Model:</strong> ŷ = wx + b
+  <div class="formula">MSE = (1/n) · Σᵢ (yᵢ − ŷᵢ)²</div>
+  <strong>Dataset (from notes):</strong> x = [1, 2], y = [3, 5]<br>
+  <strong>Initial setup:</strong> w = 0, b = 0, Learning Rate α = 0.1
+</div>
+
+<div class="subsection-header"><h3>Gradient Formulas</h3></div>
+<div class="formula">
+  ∂J/∂w = −(2/n) · Σ xᵢ(yᵢ − ŷᵢ)
+  <br><br>
+  ∂J/∂b = −(2/n) · Σ (yᵢ − ŷᵢ)
+  <br><br>
+  Update: &nbsp; w ← w − α · (∂J/∂w) &nbsp;&nbsp;&nbsp; b ← b − α · (∂J/∂b)
+</div>
+
+<div class="subsection-header"><h3>Iterations (from lecture notes)</h3></div>
+
+<div class="card">
+<table style="box-shadow:none;margin:0;font-size:0.9em">
+  <tr><th>Iteration</th><th>w</th><th>b</th><th>ŷ₁ (x=1)</th><th>ŷ₂ (x=2)</th><th>e₁ = y₁−ŷ₁</th><th>e₂ = y₂−ŷ₂</th><th>∂J/∂w</th><th>∂J/∂b</th><th>Status</th></tr>
+  <tr><td><strong>Start</strong></td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td><td>5</td><td>–13</td><td>–8</td><td>—</td></tr>
+  <tr><td><strong>After 1</strong></td><td>1.3</td><td>0.8</td><td>2.1</td><td>3.4</td><td>0.9</td><td>1.6</td><td>–4.1</td><td>–2.5</td><td>Loss ↓</td></tr>
+  <tr><td><strong>After 2</strong></td><td>1.71</td><td>1.05</td><td>2.76</td><td>4.47</td><td>0.24</td><td>0.53</td><td>–1.30</td><td>–0.77</td><td>Loss ↓</td></tr>
+  <tr><td><strong>After 3</strong></td><td>1.84</td><td>1.127</td><td>2.967</td><td>4.807</td><td>0.033</td><td>0.193</td><td>–0.419</td><td>–0.226</td><td>Loss ↓</td></tr>
+  <tr><td><strong>After 4</strong></td><td>1.8819</td><td>1.1496</td><td>3.03</td><td>4.91</td><td>~0</td><td>~0.09</td><td>≈0</td><td>≈0</td><td>Converging ✅</td></tr>
+</table>
+</div>
+
+<div class="subsection-header"><h3>Iteration 1 — Full Walkthrough</h3></div>
+<div class="card" style="font-family:monospace;font-size:0.9em;line-height:2">
+  <strong>Step 1 — Predictions (w=0, b=0):</strong><br>
+  &nbsp;&nbsp;ŷ₁ = 0×1 + 0 = 0 &nbsp;&nbsp; ŷ₂ = 0×2 + 0 = 0<br><br>
+  <strong>Step 2 — Errors:</strong><br>
+  &nbsp;&nbsp;e₁ = y₁ − ŷ₁ = 3 − 0 = 3 &nbsp;&nbsp; e₂ = y₂ − ŷ₂ = 5 − 0 = 5<br><br>
+  <strong>Step 3 — Gradients:</strong><br>
+  &nbsp;&nbsp;∂J/∂w = −(2/2)[(1)(3) + (2)(5)] = −1[3 + 10] = −13<br>
+  &nbsp;&nbsp;∂J/∂b = −(2/2)[3 + 5] = −8<br><br>
+  <strong>Step 4 — Update Parameters:</strong><br>
+  &nbsp;&nbsp;w = 0 − 0.1 × (−13) = 1.3<br>
+  &nbsp;&nbsp;b = 0 − 0.1 × (−8) = 0.8
+</div>
+
+<div class="callout callout-green">
+  <h4>✅ Key Insight from the 4 Iterations</h4>
+  The loss reduces consistently every iteration: errors shrink from (3, 5) → (0.9, 1.6) → (0.24, 0.53) → (0.033, 0.193) → converging near zero. The parameters w and b approach the true line y = 2x + 1.
+</div>
+
+<div class="code-block"><span class="code-label">Python — Gradient Descent from Scratch</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Data</span>
+X = np.array([<span class="nm">1</span>, <span class="nm">2</span>]); y = np.array([<span class="nm">3</span>, <span class="nm">5</span>])
+w, b, alpha, n = <span class="nm">0</span>, <span class="nm">0</span>, <span class="nm">0.1</span>, <span class="fn">len</span>(X)
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">4</span>):
+    y_hat = w * X + b                        <span class="cm"># predictions</span>
+    errors = y - y_hat                       <span class="cm"># residuals</span>
+    grad_w = -(<span class="nm">2</span>/n) * np.sum(X * errors)   <span class="cm"># ∂J/∂w</span>
+    grad_b = -(<span class="nm">2</span>/n) * np.sum(errors)        <span class="cm"># ∂J/∂b</span>
+    w -= alpha * grad_w                      <span class="cm"># update w</span>
+    b -= alpha * grad_b                      <span class="cm"># update b</span>
+    mse = np.mean(errors**<span class="nm">2</span>)
+    <span class="fn">print</span>(<span class="st">f"Iter {i+1}: w={w:.4f}, b={b:.4f}, MSE={mse:.4f}"</span>)</div>
+
+</div>
+<div class="page-num">Section 6 · Gradient Descent &nbsp;|&nbsp; Page 25–26</div>
+
+<!-- ══════════════════════════════════════ SECTION 7: KNN -->
+<div class="page">
+<div class="section-header" id="s7">
+  <div class="section-num">Section 7</div>
+  <h2>🔵 K-Nearest Neighbors (KNN)</h2>
+</div>
+
+<div class="callout callout-blue">
+  <h4>📌 What is KNN?</h4>
+  KNN is a <strong>non-parametric, instance-based</strong> algorithm that classifies or regresses a data point based on the <strong>K closest training examples</strong>. It makes no assumptions about the data distribution — a "lazy learner" that stores the entire dataset.
+</div>
+
+<div class="grid-3">
+  <div class="card" style="border-top:4px solid #1976d2;text-align:center">
+    <div style="font-size:2em">🦥</div>
+    <strong>Lazy Learner</strong>
+    <p style="font-size:0.85em;color:var(--muted)">No training phase — stores all data, computes only at prediction time</p>
+  </div>
+  <div class="card" style="border-top:4px solid #388e3c;text-align:center">
+    <div style="font-size:2em">📐</div>
+    <strong>Distance-Based</strong>
+    <p style="font-size:0.85em;color:var(--muted)">Uses Euclidean distance to find similar points</p>
+  </div>
+  <div class="card" style="border-top:4px solid #7b1fa2;text-align:center">
+    <div style="font-size:2em">🗳️</div>
+    <strong>Majority Voting</strong>
+    <p style="font-size:0.85em;color:var(--muted)">Class = most common among K neighbors; value = average (regression)</p>
+  </div>
+</div>
+
+<div class="subsection-header"><h3>How KNN Works — 4 Steps</h3></div>
+<div class="card">
+  <ol>
+    <li style="padding:8px 0;border-bottom:1px solid #f0f0f0"><strong>Choose K</strong> — the number of neighbors to consider</li>
+    <li style="padding:8px 0;border-bottom:1px solid #f0f0f0"><strong>Calculate distances</strong> — Euclidean distance from query point to all training points</li>
+    <li style="padding:8px 0;border-bottom:1px solid #f0f0f0"><strong>Find K nearest neighbors</strong> — select the K points with smallest distances</li>
+    <li style="padding:8px 0"><strong>Predict</strong> — Classification: majority vote &nbsp;|&nbsp; Regression: average of K values</li>
+  </ol>
+</div>
+
+<div class="formula">
+  Euclidean Distance = √[ Σᵢ (x₁ᵢ − x₂ᵢ)² ]
+</div>
+
+<div class="subsection-header"><h3>Choosing K</h3></div>
+<div class="grid-2">
+  <div class="callout callout-orange">
+    <h4>⚠️ Small K (e.g. K=1)</h4>
+    <ul class="key-points">
+      <li>Very sensitive to noise</li>
+      <li>High variance, low bias</li>
+      <li>Risk of overfitting</li>
+    </ul>
+  </div>
+  <div class="callout callout-red">
+    <h4>⚠️ Large K</h4>
+    <ul class="key-points">
+      <li>Smoother, more stable</li>
+      <li>Low variance, high bias</li>
+      <li>May miss local patterns (underfitting)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout callout-green">
+  <h4>✅ K Selection Strategies</h4>
+  <ul class="key-points">
+    <li><strong>Cross-Validation:</strong> K-fold CV — test multiple K values, pick best</li>
+    <li><strong>Elbow Method:</strong> Plot error vs K; the "elbow" point = optimal K</li>
+    <li><strong>Use odd K</strong> in binary classification to avoid ties</li>
+    <li>Rule of thumb: K ≈ √n where n = number of training samples</li>
+  </ul>
+</div>
+
+<div class="code-block"><span class="code-label">Python — KNN with Scikit-learn</span>
+<span class="kw">from</span> sklearn.neighbors <span class="kw">import</span> KNeighborsClassifier
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> accuracy_score
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># Load data (e.g. diabetes dataset)</span>
+df = pd.read_csv(<span class="st">'diabetes.csv'</span>)
+X = df.drop(<span class="st">'Outcome'</span>, axis=<span class="nm">1</span>)
+y = df[<span class="st">'Outcome'</span>]
+
+<span class="cm"># Split</span>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="nm">0.2</span>, random_state=<span class="nm">42</span>)
+
+<span class="cm"># Scale (important for KNN!)</span>
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test  = scaler.transform(X_test)
+
+<span class="cm"># Train</span>
+knn = KNeighborsClassifier(n_neighbors=<span class="nm">5</span>)
+knn.fit(X_train, y_train)
+
+<span class="cm"># Evaluate</span>
+y_pred = knn.predict(X_test)
+<span class="fn">print</span>(<span class="st">f"Accuracy: {accuracy_score(y_test, y_pred):.4f}"</span>)</div>
+
+<div class="grid-2">
+  <div class="callout callout-green">
+    <h4>✅ Advantages</h4>
+    <ul class="key-points">
+      <li>Simple to understand &amp; implement</li>
+      <li>No training time</li>
+      <li>Naturally handles multi-class</li>
+      <li>No assumptions about data distribution</li>
+    </ul>
+  </div>
+  <div class="callout callout-red">
+    <h4>❌ Disadvantages</h4>
+    <ul class="key-points">
+      <li>Slow prediction on large datasets</li>
+      <li>Sensitive to irrelevant features</li>
+      <li>Requires feature scaling</li>
+      <li>High memory usage (stores all training data)</li>
+    </ul>
+  </div>
+</div>
+</div>
+<div class="page-num">Section 7 · K-Nearest Neighbors &nbsp;|&nbsp; Page 27–28</div>
+
+<!-- ══════════════════════════════════════ SECTION 8: NAIVE BAYES -->
+<div class="page">
+<div class="section-header" id="s8">
+  <div class="section-num">Section 8</div>
+  <h2>🎲 Naïve Bayes</h2>
+</div>
+
+<div class="callout callout-purple">
+  <h4>📌 What is Naïve Bayes?</h4>
+  A probabilistic classifier built on <strong>Bayes' theorem</strong> with one key assumption: all features are <strong>conditionally independent</strong> given the class label. Called "naïve" because this independence assumption rarely holds in reality — yet the classifier often works surprisingly well.
+</div>
+
+<div class="subsection-header"><h3>Bayes' Theorem</h3></div>
+<div class="formula">
+  P(C | X) = [ P(X | C) · P(C) ] / P(X)
+  <br><br>
+  <small>Posterior = (Likelihood × Prior) / Evidence</small>
+</div>
+
+<div class="card">
+  <strong>The Naïve Assumption</strong> — instead of computing the full joint probability:
+  <div class="formula" style="font-size:0.9em">
+    P(x₁, x₂, …, xₙ | C) ≈ P(x₁|C) · P(x₂|C) · … · P(xₙ|C)
+  </div>
+  <strong>Classifier Decision:</strong>
+  <div class="formula" style="font-size:0.9em">
+    Ĉ = argmaxc [ P(C) · ∏ᵢ P(xᵢ | C) ]
+  </div>
+  Pick the class C that maximises the product of prior × all likelihoods.
+</div>
+
+<div class="subsection-header"><h3>Types of Naïve Bayes</h3></div>
+<table>
+  <tr><th>Type</th><th>When to Use</th><th>Assumption</th></tr>
+  <tr><td><strong>Gaussian NB</strong></td><td>Continuous features</td><td>Features follow Normal distribution</td></tr>
+  <tr><td><strong>Multinomial NB</strong></td><td>Text / word counts</td><td>Features are integer counts (most common for text)</td></tr>
+  <tr><td><strong>Bernoulli NB</strong></td><td>Binary features</td><td>Features are 0/1 presence indicators</td></tr>
+</table>
+
+<div class="subsection-header"><h3>Worked Example — "Play Tennis?" Dataset</h3></div>
+<div class="screenshot-note">
+  📸 <strong>From lecture screenshots (Jul 15 — 5 pages):</strong> Textbook example showing full probability calculations for Naïve Bayes classification.
+</div>
+
+<div class="card">
+  <strong>Dataset:</strong> 14 training examples, 4 features: Outlook, Temperature, Humidity, Windy<br>
+  <strong>Target:</strong> Play Tennis (Yes / No)<br><br>
+  <strong>Step 1 — Prior Probabilities:</strong>
+  <div class="formula" style="font-size:0.9em">P(Yes) = 9/14 ≈ 0.643 &nbsp;&nbsp;&nbsp; P(No) = 5/14 ≈ 0.357</div>
+
+  <strong>Step 2 — Conditional Probabilities (likelihoods):</strong><br>
+  <table style="box-shadow:none;margin:10px 0;font-size:0.88em">
+    <tr><th>Feature</th><th>Value</th><th>P(val | Yes)</th><th>P(val | No)</th></tr>
+    <tr><td>Outlook</td><td>Sunny</td><td>2/9 = 0.222</td><td>3/5 = 0.600</td></tr>
+    <tr><td>Outlook</td><td>Rain</td><td>3/9 = 0.333</td><td>2/5 = 0.400</td></tr>
+    <tr><td>Temperature</td><td>Cool</td><td>3/9 = 0.385</td><td>1/5 = 0.200</td></tr>
+    <tr><td>Humidity</td><td>Normal</td><td>6/9 = 0.667</td><td>1/5 = 0.200</td></tr>
+    <tr><td>Windy</td><td>False</td><td>6/9 = 0.667</td><td>2/5 = 0.400</td></tr>
+    <tr><td>Humidity</td><td>High</td><td>3/9 = 0.333</td><td>4/5 = 0.800</td></tr>
+  </table>
+
+  <strong>Step 3 — Predict new day:</strong> Outlook=Sunny, Temp=Cool, Humidity=Normal, Windy=False<br><br>
+  <div class="formula" style="font-size:0.88em;text-align:left;padding:14px 20px">
+    P(Yes|X) ∝ 0.643 × 0.222 × 0.385 × 0.667 × 0.667 ≈ <strong>0.0245</strong><br><br>
+    P(No|X) ∝ 0.357 × 0.600 × 0.200 × 0.200 × 0.400 ≈ <strong>0.0034</strong><br><br>
+    <strong>Decision: 0.0245 &gt; 0.0034 → Predict YES (Play Tennis)</strong>
+  </div>
+</div>
+
+<div class="subsection-header"><h3>Spam Detection — Concept</h3></div>
+<div class="card">
+  <ol>
+    <li><strong>Training:</strong> Calculate P(Spam) and P(Not Spam); for each word, calculate P(word | Spam) and P(word | Not Spam)</li>
+    <li><strong>Prediction:</strong> For new email, compute P(Spam|words) and P(Not Spam|words) → classify as higher probability class</li>
+  </ol>
+</div>
+
+<div class="code-block"><span class="code-label">Python — Gaussian Naïve Bayes</span>
+<span class="kw">from</span> sklearn.naive_bayes <span class="kw">import</span> GaussianNB, MultinomialNB
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># Load diabetes dataset</span>
+df = pd.read_csv(<span class="st">'diabetes.csv'</span>)
+X = df.drop(<span class="st">'Outcome'</span>, axis=<span class="nm">1</span>)
+y = df[<span class="st">'Outcome'</span>]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="nm">0.2</span>, random_state=<span class="nm">42</span>)
+
+<span class="cm"># Gaussian NB (good for continuous features)</span>
+gnb = GaussianNB()
+gnb.fit(X_train, y_train)
+y_pred = gnb.predict(X_test)
+<span class="fn">print</span>(classification_report(y_test, y_pred))</div>
+
+<div class="grid-2">
+  <div class="callout callout-green">
+    <h4>✅ Advantages</h4>
+    <ul class="key-points">
+      <li>Easy to implement, very fast</li>
+      <li>Works well with small training data</li>
+      <li>Handles many features (text classification)</li>
+      <li>Probabilistic outputs (not just class labels)</li>
+    </ul>
+  </div>
+  <div class="callout callout-red">
+    <h4>❌ Disadvantages</h4>
+    <ul class="key-points">
+      <li>Independence assumption rarely true in practice</li>
+      <li>Zero probability problem (use Laplace smoothing)</li>
+      <li>Poor when features are correlated</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout callout-teal">
+  <h4>🏥 Healthcare Applications</h4>
+  Medical diagnosis classification, disease risk assessment from symptoms, medical report text classification, drug adverse event detection from clinical notes.
+</div>
+</div>
+<div class="page-num">Section 8 · Naïve Bayes &nbsp;|&nbsp; Page 29–31</div>
+
+<!-- ══════════════════════════════════════ SECTION 9: SVM -->
+<div class="page">
+<div class="section-header" id="s9">
+  <div class="section-num">Section 9</div>
+  <h2>🎯 Support Vector Machine (SVM)</h2>
+</div>
+
+<div class="callout callout-blue">
+  <h4>📌 What is SVM?</h4>
+  SVM is a supervised algorithm for classification and regression. It finds the <strong>best hyperplane</strong> that separates classes by <strong>maximising the margin</strong> between the hyperplane and the nearest data points (support vectors).
+</div>
+
+<div class="subsection-header"><h3>Key Concepts</h3></div>
+<div class="grid-2">
+  <table style="margin:0">
+    <tr><th>Term</th><th>Definition</th></tr>
+    <tr><td><strong>Hyperplane</strong></td><td>Decision boundary: wx + b = 0</td></tr>
+    <tr><td><strong>Support Vectors</strong></td><td>Closest data points to the hyperplane — they define the margin</td></tr>
+    <tr><td><strong>Margin</strong></td><td>Distance between hyperplane and support vectors — SVM <em>maximises</em> this</td></tr>
+    <tr><td><strong>Hard Margin</strong></td><td>Perfect separation, no misclassifications allowed</td></tr>
+    <tr><td><strong>Soft Margin</strong></td><td>Allows some misclassifications using slack variables — more robust</td></tr>
+    <tr><td><strong>C Parameter</strong></td><td>Regularisation — high C = strict penalty for errors; low C = wider margin</td></tr>
+    <tr><td><strong>Kernel</strong></td><td>Maps data to higher dimensions for non-linear separation</td></tr>
+    <tr><td><strong>Hinge Loss</strong></td><td>Penalises misclassified or margin-violating points</td></tr>
+  </table>
+
+  <div>
+    <div class="diagram">
+       Class A  |  Class B
+         ●   ●  |  ○   ○
+           ●    |    ○
+         ●  [sv]|[sv]  ○
+         ←margin→
+              ↑
+         Hyperplane
+         (maximise this gap)
+    </div>
+    <div class="formula" style="font-size:0.88em">
+      Hinge Loss = max(0, 1 − yᵢ(wᵀxᵢ + b))
+    </div>
+  </div>
+</div>
+
+<div class="subsection-header"><h3>Linear vs Non-Linear SVM</h3></div>
+<div class="grid-2">
+  <div class="card" style="border-top:4px solid #1976d2">
+    <strong>Linear SVM</strong>
+    <p style="font-size:0.9em;margin-top:6px">Data is <strong>linearly separable</strong> — a straight line (2D) or hyperplane (nD) cleanly separates the classes.</p>
+    <ul class="key-points" style="font-size:0.88em">
+      <li>Best for: high-dimensional, sparse data (text)</li>
+      <li>Fast and efficient</li>
+      <li>Decision boundary: hyperplane</li>
+    </ul>
+  </div>
+  <div class="card" style="border-top:4px solid #7b1fa2">
+    <strong>Non-Linear SVM (Kernel Trick)</strong>
+    <p style="font-size:0.9em;margin-top:6px">Data NOT linearly separable → kernel maps it to higher-dimensional space where it IS separable.</p>
+    <ul class="key-points" style="font-size:0.88em">
+      <li><strong>RBF (Gaussian) Kernel</strong> — most popular; circular boundaries</li>
+      <li><strong>Polynomial Kernel</strong> — polynomial boundaries</li>
+      <li><strong>Sigmoid Kernel</strong> — like neural net activation</li>
+    </ul>
+  </div>
+</div>
+
+<div class="code-block"><span class="code-label">Python — SVM with Scikit-learn</span>
+<span class="kw">from</span> sklearn.svm <span class="kw">import</span> SVC
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report, confusion_matrix
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df = pd.read_csv(<span class="st">'diabetes.csv'</span>)
+X = df.drop(<span class="st">'Outcome'</span>, axis=<span class="nm">1</span>); y = df[<span class="st">'Outcome'</span>]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="nm">0.2</span>, random_state=<span class="nm">42</span>)
+
+<span class="cm"># Always scale for SVM!</span>
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train); X_test = sc.transform(X_test)
+
+<span class="cm"># Linear SVM</span>
+svm_linear = SVC(kernel=<span class="st">'linear'</span>, C=<span class="nm">1.0</span>)
+svm_linear.fit(X_train, y_train)
+<span class="fn">print</span>(<span class="st">"Linear SVM:"</span>, classification_report(y_test, svm_linear.predict(X_test)))
+
+<span class="cm"># RBF (non-linear) SVM</span>
+svm_rbf = SVC(kernel=<span class="st">'rbf'</span>, C=<span class="nm">1.0</span>, gamma=<span class="st">'scale'</span>)
+svm_rbf.fit(X_train, y_train)
+<span class="fn">print</span>(<span class="st">"RBF SVM:"</span>, classification_report(y_test, svm_rbf.predict(X_test)))</div>
+
+<div class="grid-2">
+  <div class="callout callout-green">
+    <h4>✅ Advantages</h4>
+    <ul class="key-points">
+      <li>Effective in high-dimensional spaces</li>
+      <li>Robust to overfitting (especially linear)</li>
+      <li>Versatile — different kernels for different problems</li>
+      <li>Works well when features &gt; samples</li>
+    </ul>
+  </div>
+  <div class="callout callout-red">
+    <h4>❌ Disadvantages</h4>
+    <ul class="key-points">
+      <li>Slow on large datasets</li>
+      <li>Kernel &amp; C selection requires tuning</li>
+      <li>Not easily interpretable</li>
+      <li>Sensitive to feature scaling</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout callout-teal">
+  <h4>🏥 Healthcare Applications</h4>
+  Cancer cell classification (malignant/benign), medical image classification, gene expression analysis, protein structure prediction, disease diagnosis from clinical features.
+</div>
+</div>
+<div class="page-num">Section 9 · Support Vector Machine &nbsp;|&nbsp; Page 32–34</div>
+
+<!-- ════════════════════════════════════ SECTION 10: RANDOM FOREST -->
+<div class="page">
+<div class="section-header" id="s10">
+  <div class="section-num">Section 10</div>
+  <h2>🌲 Random Forest</h2>
+</div>
+
+<div class="callout callout-green">
+  <h4>📌 What is Random Forest?</h4>
+  Random Forest is an <strong>ensemble learning</strong> algorithm that builds many decision trees on random subsets of data and features, then combines their predictions via <strong>majority voting</strong> (classification) or <strong>averaging</strong> (regression). More trees = more stable predictions.
+</div>
+
+<div class="subsection-header"><h3>Ensemble Learning — Background</h3></div>
+<div class="card">
+  <p>Ensemble learning combines multiple models ("weak learners") to produce a stronger, more accurate predictor.</p>
+  <div class="grid-3" style="margin-top:12px">
+    <div class="card" style="border-top:3px solid #1976d2">
+      <strong>Bagging</strong><br>
+      <span style="font-size:0.85em">Train models <em>independently</em> on random bootstrap samples; combine by voting/averaging.<br>→ Reduces <strong>variance</strong><br>→ Random Forest uses this</span>
+    </div>
+    <div class="card" style="border-top:3px solid #e65100">
+      <strong>Boosting</strong><br>
+      <span style="font-size:0.85em">Train models <em>sequentially</em>; each corrects previous errors via weight adjustment.<br>→ Reduces <strong>bias</strong><br>→ XGBoost uses this</span>
+    </div>
+    <div class="card" style="border-top:3px solid #7b1fa2">
+      <strong>Stacking</strong><br>
+      <span style="font-size:0.85em">Train diverse base models; a <em>meta-model</em> learns to combine their predictions.<br>→ Most flexible ensemble</span>
+    </div>
+  </div>
+</div>
+
+<div class="subsection-header"><h3>How Random Forest Works</h3></div>
+<div class="diagram">
+  Training Data
+       │
+       ├── Bootstrap Sample 1 → Tree 1 → Prediction 1
+       ├── Bootstrap Sample 2 → Tree 2 → Prediction 2   →  MAJORITY VOTE
+       ├── Bootstrap Sample 3 → Tree 3 → Prediction 3       (or Average)
+       └── Bootstrap Sample N → Tree N → Prediction N
+                                                         → Final Prediction
+  Each tree also uses a RANDOM SUBSET of features at each split
+  → Trees are decorrelated → ensemble is more robust
+</div>
+
+<div class="card">
+  <strong>Step-by-Step:</strong>
+  <ol style="margin-top:8px">
+    <li><strong>Bootstrap Sampling:</strong> Each tree trained on random sample with replacement</li>
+    <li><strong>Random Feature Selection:</strong> At each node split, only √(total features) considered</li>
+    <li><strong>Grow Full Trees:</strong> Each tree grown deep (low bias individually)</li>
+    <li><strong>Aggregate:</strong> Classification = majority vote; Regression = mean</li>
+    <li><strong>OOB Evaluation:</strong> Samples not in bootstrap = "Out-of-Bag" — used for validation without a separate split</li>
+  </ol>
+</div>
+
+<div class="subsection-header"><h3>Key Hyperparameters</h3></div>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>What It Controls</th><th>Tip</th></tr>
+  <tr><td><code>n_estimators</code></td><td>100</td><td>Number of trees in the forest</td><td>More trees = better but slower; diminishing returns after ~200</td></tr>
+  <tr><td><code>max_features</code></td><td>"sqrt"</td><td>Features considered at each split</td><td>"sqrt" = √n (classification); "log2" = more randomness</td></tr>
+  <tr><td><code>max_depth</code></td><td>None</td><td>Maximum depth of each tree</td><td>Limit to reduce overfitting on small datasets</td></tr>
+  <tr><td><code>min_samples_split</code></td><td>2</td><td>Min samples to split an internal node</td><td>Increase to prevent overfitting</td></tr>
+  <tr><td><code>max_leaf_nodes</code></td><td>None</td><td>Max leaf nodes per tree</td><td>Constrains tree size</td></tr>
+  <tr><td><code>max_samples</code></td><td>None (all)</td><td>Training samples given to each tree</td><td>Subsample for speed on huge datasets</td></tr>
+</table>
+
+<div class="code-block"><span class="code-label">Python — Random Forest</span>
+<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+df = pd.read_csv(<span class="st">'diabetes.csv'</span>)
+X = df.drop(<span class="st">'Outcome'</span>, axis=<span class="nm">1</span>); y = df[<span class="st">'Outcome'</span>]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="nm">0.2</span>, random_state=<span class="nm">42</span>)
+
+<span class="cm"># Train Random Forest</span>
+rf = RandomForestClassifier(n_estimators=<span class="nm">100</span>, max_features=<span class="st">'sqrt'</span>,
+                             max_depth=<span class="nm">10</span>, random_state=<span class="nm">42</span>)
+rf.fit(X_train, y_train)
+y_pred = rf.predict(X_test)
+<span class="fn">print</span>(classification_report(y_test, y_pred))
+
+<span class="cm"># Feature Importance</span>
+importances = pd.Series(rf.feature_importances_, index=X.columns)
+importances.sort_values().plot(kind=<span class="st">'barh'</span>, figsize=(<span class="nm">8</span>,<span class="nm">5</span>))
+plt.title(<span class="st">'Feature Importances'</span>); plt.show()</div>
+
+<div class="grid-2">
+  <div class="callout callout-green">
+    <h4>✅ Advantages</h4>
+    <ul class="key-points">
+      <li>Very high accuracy on most datasets</li>
+      <li>Reduces overfitting vs single tree</li>
+      <li>Built-in feature importance</li>
+      <li>Handles missing data after preprocessing</li>
+      <li>No need for feature scaling</li>
+      <li>Works for classification and regression</li>
+    </ul>
+  </div>
+  <div class="callout callout-red">
+    <h4>❌ Limitations</h4>
+    <ul class="key-points">
+      <li>Computationally expensive with many trees</li>
+      <li>Less interpretable than single decision tree</li>
+      <li>Slower prediction than simple models</li>
+    </ul>
+  </div>
+</div>
+</div>
+<div class="page-num">Section 10 · Random Forest &nbsp;|&nbsp; Page 35–37</div>
+
+<!-- ════════════════════════════════════ SECTION 11: XGBOOST -->
+<div class="page">
+<div class="section-header" id="s11">
+  <div class="section-num">Section 11</div>
+  <h2>⚡ XGBoost</h2>
+</div>
+
+<div class="callout callout-orange">
+  <h4>📌 What is XGBoost?</h4>
+  XGBoost (eXtreme Gradient Boosting) is an optimised <strong>gradient boosting</strong> algorithm. It builds decision trees <strong>sequentially</strong>, each correcting the errors of the previous one. XGBoost adds regularisation, parallelism, and smart memory access on top of standard gradient boosting.
+</div>
+
+<div class="subsection-header"><h3>XGBoost vs Standard Gradient Boosting</h3></div>
+<div class="diagram">
+  Standard Gradient Boosting:
+    Tree 1 → errors → Tree 2 → errors → Tree 3 → ... → Sum
+
+  XGBoost adds:
+    + L1/L2 Regularisation   (prevents overfitting)
+    + Tree Pruning           (removes useless splits)
+    + Parallel Processing    (trains features in parallel)
+    + Missing Value Handling (learns default direction)
+    + Cache-Aware Access     (faster memory usage)
+    + Approximate Split Finding (handles huge datasets)
+</div>
+
+<div class="subsection-header"><h3>How XGBoost Works — Step by Step</h3></div>
+<div class="card">
+  <ol>
+    <li style="padding:7px 0;border-bottom:1px solid #f0f0f0"><strong>Start with base learner:</strong> First tree trained on data. For regression, predicts the mean of y.</li>
+    <li style="padding:7px 0;border-bottom:1px solid #f0f0f0"><strong>Calculate residual errors:</strong> Difference between predicted and actual values.</li>
+    <li style="padding:7px 0;border-bottom:1px solid #f0f0f0"><strong>Train next tree on errors:</strong> Each subsequent tree tries to correct the previous tree's mistakes.</li>
+    <li style="padding:7px 0;border-bottom:1px solid #f0f0f0"><strong>Repeat:</strong> Until stopping criterion (max trees or no improvement).</li>
+    <li style="padding:7px 0"><strong>Final prediction:</strong> Sum of all tree predictions (weighted by learning rate η).</li>
+  </ol>
+</div>
+
+<div class="formula">
+  Final Prediction = η·Tree₁ + η·Tree₂ + η·Tree₃ + ... + η·TreeN
+  <br><small style="color:var(--muted)">η = learning rate (controls each tree's contribution)</small>
+</div>
+
+<div class="subsection-header"><h3>Key Improvements in XGBoost</h3></div>
+<table>
+  <tr><th>Feature</th><th>How It Helps</th></tr>
+  <tr><td><strong>Regularisation (L1+L2)</strong></td><td>Adds penalty for model complexity → prevents overfitting</td></tr>
+  <tr><td><strong>Learning Rate (eta)</strong></td><td>Scales each tree's contribution → more conservative learning, better generalisation</td></tr>
+  <tr><td><strong>Tree Pruning</strong></td><td>Grows trees depth-first then removes splits that don't improve objective → simpler trees</td></tr>
+  <tr><td><strong>Level-Wise Growth</strong></td><td>Builds all nodes at one depth before going deeper → efficient feature evaluation</td></tr>
+  <tr><td><strong>Sparsity-Aware Splits</strong></td><td>Missing values assigned a "default direction" learned during training</td></tr>
+  <tr><td><strong>Cache-Aware Access</strong></td><td>Stores frequently-accessed data in CPU cache → faster computation</td></tr>
+  <tr><td><strong>Approx. Greedy Algorithm</strong></td><td>Uses weighted quantiles instead of exact split search → scales to huge datasets</td></tr>
+</table>
+
+<div class="code-block"><span class="code-label">Python — XGBoost</span>
+<span class="kw">import</span> xgboost <span class="kw">as</span> xgb
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report, accuracy_score
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df = pd.read_csv(<span class="st">'diabetes.csv'</span>)
+X = df.drop(<span class="st">'Outcome'</span>, axis=<span class="nm">1</span>); y = df[<span class="st">'Outcome'</span>]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="nm">0.2</span>, random_state=<span class="nm">42</span>)
+
+<span class="cm"># Train XGBoost</span>
+model = xgb.XGBClassifier(
+    n_estimators=<span class="nm">100</span>,     <span class="cm"># number of trees</span>
+    learning_rate=<span class="nm">0.1</span>,    <span class="cm"># eta — step size</span>
+    max_depth=<span class="nm">6</span>,          <span class="cm"># tree depth</span>
+    subsample=<span class="nm">0.8</span>,        <span class="cm"># row subsampling</span>
+    colsample_bytree=<span class="nm">0.8</span>, <span class="cm"># feature subsampling</span>
+    reg_alpha=<span class="nm">0.1</span>,        <span class="cm"># L1 regularisation</span>
+    reg_lambda=<span class="nm">1.0</span>,       <span class="cm"># L2 regularisation</span>
+    use_label_encoder=<span class="kw">False</span>, eval_metric=<span class="st">'logloss'</span>
+)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+<span class="fn">print</span>(<span class="st">f"Accuracy: {accuracy_score(y_test, y_pred):.4f}"</span>)
+<span class="fn">print</span>(classification_report(y_test, y_pred))
+
+<span class="cm"># Feature importance</span>
+xgb.plot_importance(model); plt.show()</div>
+
+<div class="grid-2">
+  <div class="callout callout-green">
+    <h4>✅ Advantages</h4>
+    <ul class="key-points">
+      <li>State-of-the-art accuracy on tabular data</li>
+      <li>Fast training with parallelism</li>
+      <li>Built-in regularisation → less overfitting</li>
+      <li>Handles missing values natively</li>
+      <li>Supports feature importance</li>
+      <li>Scales well to large datasets</li>
+    </ul>
+  </div>
+  <div class="callout callout-red">
+    <h4>❌ Disadvantages</h4>
+    <ul class="key-points">
+      <li>Many hyperparameters to tune</li>
+      <li>Less interpretable than single tree</li>
+      <li>Slower than simple models for small data</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout callout-teal">
+  <h4>🏥 Healthcare Applications</h4>
+  Diabetes prediction, cancer diagnosis, heart disease prediction, drug response prediction, clinical trial outcome modelling, medical cost forecasting.
+</div>
+</div>
+<div class="page-num">Section 11 · XGBoost &nbsp;|&nbsp; Page 38–40</div>
+
+<!-- ════════════════════════════════════ SECTION 12: CNN / DEEP LEARNING -->
+<div class="page">
+<div class="section-header" id="s12">
+  <div class="section-num">Section 12</div>
+  <h2>🧠 Deep Learning &amp; CNN Introduction</h2>
+</div>
+
+<div class="screenshot-note">
+  📸 <strong>From lecture handwritten notes (Jul 21 — 6 pages):</strong> CNN worked example with 5×5 grayscale image, Sobel filter, ReLU activation, 2×2 max pooling, and flatten step — all computed by hand.
+</div>
+
+<div class="callout callout-purple">
+  <h4>📌 What is a CNN?</h4>
+  A <strong>Convolutional Neural Network (CNN)</strong> is a deep learning architecture designed for grid-like data (images, sequences). It learns spatial hierarchies of features automatically using convolution, activation, and pooling layers.
+</div>
+
+<div class="subsection-header"><h3>CNN Architecture — Layer by Layer</h3></div>
+<div class="diagram">
+  Input Image → [CONVOLUTION] → [ACTIVATION (ReLU)] → [POOLING] → [FLATTEN] → [Dense Layers] → Output
+       ↑              ↑                  ↑                ↑            ↑
+   Raw pixels    Feature maps      Remove negatives   Downsample   1D vector
+</div>
+
+<div class="subsection-header"><h3>Step 1 — Input Image</h3></div>
+<div class="card">
+  <p>A grayscale image is represented as a 2D matrix of pixel values (0–255).</p>
+  <div class="code-block" style="margin-top:10px"><span class="code-label">From lecture notes — 5×5 input image I</span>
+I = [[1, 2, 3, 0, 1],
+     [0, 1, 2, 3, 1],
+     [1, 2, 1, 0, 0],
+     [2, 1, 0, 1, 2],
+     [1, 0, 2, 1, 1]]</div>
+</div>
+
+<div class="subsection-header"><h3>Step 2 — Convolution Layer</h3></div>
+<div class="card">
+  <p>A <strong>filter/kernel</strong> (small matrix) slides over the input, computing dot products. The result is a <strong>feature map</strong> that highlights specific patterns (edges, textures).</p>
+  <div class="formula" style="font-size:0.9em">Output Size = ⌊(Input Size − Filter Size + 2×Padding) / Stride⌋ + 1</div>
+
+  <div class="code-block" style="margin-top:10px"><span class="code-label">Sobel-X filter (3×3) — detects vertical edges</span>
+K = [[ 1, 0, -1],
+     [ 1, 0, -1],
+     [ 1, 0, -1]]
+
+With Stride=1, No Padding → Output Size = (5-3)/1 + 1 = 3  →  3×3 feature map
+
+Position (0,0): top-left 3×3 patch of I dotted with K
+= (1×1)+(2×0)+(3×-1) + (0×1)+(1×0)+(2×-1) + (1×1)+(2×0)+(1×-1)
+= (1+0-3) + (0+0-2) + (1+0-1) = -3 + (-2) + 0 = -3  ✓ (matches lecture notes)
+
+Position (0,1) → -4 (computed same way)
+Position (0,2) → 4
+
+Full convolution output C:
+C = [[-3, -4,  4],
+     [ 0,  0,  0],
+     [ 1,  1,  0]]</div>
+
+  <div class="callout callout-blue" style="margin-top:8px">
+    <h4>💡 With Padding</h4>
+    Padding adds zeros around the image border so the output has the <strong>same size</strong> as input.<br>
+    5×5 input → add 1-pixel border → 7×7 padded → after 3×3 conv with stride 1 → 5×5 output (same size preserved)
+  </div>
+</div>
+
+<div class="subsection-header"><h3>Step 3 — ReLU Activation</h3></div>
+<div class="card">
+  <p>ReLU (Rectified Linear Unit) removes all negative values from the feature map, introducing non-linearity.</p>
+  <div class="formula">ReLU(x) = max(0, x)</div>
+  <div class="code-block" style="margin-top:8px"><span class="code-label">Apply ReLU to convolution output</span>
+C = [[-3, -4,  4],      ReLU(C) = [[0, 0, 4],
+     [ 0,  0,  0],    ──────────→   [0, 0, 0],
+     [ 1,  1,  0]]                  [1, 1, 0]]
+
+All negative values become 0. Positive values unchanged.</div>
+</div>
+
+<div class="subsection-header"><h3>Step 4 — Max Pooling</h3></div>
+<div class="card">
+  <p>Pooling <strong>reduces spatial dimensions</strong> (downsampling) while keeping the most important features. Max pooling takes the <strong>maximum value</strong> in each window.</p>
+  <div class="formula">2×2 Max Pool → Output Size = Input Size / 2</div>
+  <div class="code-block" style="margin-top:8px"><span class="code-label">2×2 Max Pooling on a 4×4 feature map (from lecture notes)</span>
+Input (after ReLU, 4×4):
+[[0, 2, 4, 1],
+ [0, 0, 0, 0],
+ [1, 1, 0, 1],
+ [0, 1, 0, 0]]
+
+Window 1 (top-left 2×2): max(0,2,0,0) = 2
+Window 2 (top-right 2×2): max(4,1,0,0) = 4
+Window 3 (bottom-left 2×2): max(1,1,0,1) = 1
+Window 4 (bottom-right 2×2): max(0,1,0,0) = 1
+
+Pooled Result (2×2):
+[[2, 4],
+ [1, 1]]</div>
+</div>
+
+<div class="subsection-header"><h3>Step 5 — Flatten</h3></div>
+<div class="card">
+  <p>Converts the 2D feature map into a <strong>1D vector</strong> to feed into fully-connected (Dense) layers for final classification.</p>
+  <div class="code-block"><span class="code-label">Flatten</span>
+Pooled (2×2): [[2, 4], [1, 1]]
+→ Flattened: [2, 4, 1, 1]   ← 1D vector input to Dense layer</div>
+</div>
+
+<div class="subsection-header"><h3>Full CNN Pipeline Summary</h3></div>
+<table>
+  <tr><th>Step</th><th>Operation</th><th>Output Shape (5×5 example)</th><th>Purpose</th></tr>
+  <tr><td>Input</td><td>Raw image</td><td>5×5</td><td>Original pixel values</td></tr>
+  <tr><td>Padding</td><td>Zero-pad border</td><td>7×7</td><td>Preserve spatial dimensions</td></tr>
+  <tr><td>Convolution</td><td>3×3 filter, stride=1</td><td>5×5 (feature map)</td><td>Detect edges/patterns</td></tr>
+  <tr><td>ReLU</td><td>max(0, x)</td><td>5×5</td><td>Add non-linearity; negatives → 0</td></tr>
+  <tr><td>Max Pooling</td><td>2×2 window</td><td>4×4 (or 2×2)</td><td>Reduce spatial size, keep key features</td></tr>
+  <tr><td>Flatten</td><td>Reshape to 1D</td><td>1×16 (or 1×4)</td><td>Prepare for Dense layers</td></tr>
+  <tr><td>Dense + Softmax</td><td>Fully connected</td><td>1×N classes</td><td>Final classification</td></tr>
+</table>
+
+<div class="code-block"><span class="code-label">Python — Simple CNN with Keras (TensorFlow)</span>
+<span class="kw">import</span> tensorflow <span class="kw">as</span> tf
+<span class="kw">from</span> tensorflow.keras <span class="kw">import</span> layers, models
+
+<span class="cm"># Build CNN</span>
+model = models.Sequential([
+    <span class="cm"># Conv Block 1</span>
+    layers.Conv2D(<span class="nm">32</span>, (<span class="nm">3</span>,<span class="nm">3</span>), activation=<span class="st">'relu'</span>, padding=<span class="st">'same'</span>, input_shape=(<span class="nm">28</span>,<span class="nm">28</span>,<span class="nm">1</span>)),
+    layers.MaxPooling2D((<span class="nm">2</span>,<span class="nm">2</span>)),
+
+    <span class="cm"># Conv Block 2</span>
+    layers.Conv2D(<span class="nm">64</span>, (<span class="nm">3</span>,<span class="nm">3</span>), activation=<span class="st">'relu'</span>, padding=<span class="st">'same'</span>),
+    layers.MaxPooling2D((<span class="nm">2</span>,<span class="nm">2</span>)),
+
+    <span class="cm"># Flatten + Dense</span>
+    layers.Flatten(),
+    layers.Dense(<span class="nm">128</span>, activation=<span class="st">'relu'</span>),
+    layers.Dropout(<span class="nm">0.5</span>),                         <span class="cm"># reduces overfitting</span>
+    layers.Dense(<span class="nm">10</span>, activation=<span class="st">'softmax'</span>)       <span class="cm"># 10 output classes</span>
+])
+
+model.compile(optimizer=<span class="st">'adam'</span>, loss=<span class="st">'sparse_categorical_crossentropy'</span>, metrics=[<span class="st">'accuracy'</span>])
+model.summary()</div>
+
+<div class="callout callout-teal">
+  <h4>🏥 CNN Healthcare Applications</h4>
+  X-ray / MRI / CT scan analysis, diabetic retinopathy detection from fundus images, skin lesion classification, histopathology slide analysis, tumour segmentation.
+</div>
+</div>
+<div class="page-num">Section 12 · Deep Learning &amp; CNN &nbsp;|&nbsp; Page 41–43</div>
+
+<!-- ═══════════════════════════════ SECTION 13: QUICK REFERENCE -->
+<div class="page">
+<div class="section-header" id="s13">
+  <div class="section-num">Section 13</div>
+  <h2>📋 ML Algorithms Quick Reference</h2>
+</div>
+
+<div class="screenshot-note">
+  📸 <strong>From lecture screenshot (Jul 19):</strong> Comprehensive ML Algorithms Cheatsheet — Algorithm, Type, Key Formula, Assumptions, Pros, Cons, When Not to Use, Real-World Example.
+</div>
+
+<table style="font-size:0.82em">
+  <tr>
+    <th>Algorithm</th><th>Type</th><th>Key Idea</th><th>Pros</th><th>Cons</th><th>Healthcare Example</th>
+  </tr>
+  <tr>
+    <td><strong>Linear Regression</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>y = b₀ + b₁x₁ + b₂x₂ + …</td>
+    <td>Simple, fast, interpretable</td>
+    <td>Sensitive to outliers; linearity assumption</td>
+    <td>Predicting patient vitals</td>
+  </tr>
+  <tr>
+    <td><strong>Logistic Regression</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>P = 1/(1 + e^−z) — sigmoid</td>
+    <td>Probabilistic, interpretable</td>
+    <td>Weak with non-linear boundaries</td>
+    <td>Disease present/absent</td>
+  </tr>
+  <tr>
+    <td><strong>Decision Tree</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>Recursive binary splits</td>
+    <td>Easy to interpret</td>
+    <td>Overfitting, unstable</td>
+    <td>Diagnosis flowchart</td>
+  </tr>
+  <tr>
+    <td><strong>Random Forest</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>Bagging + averaging trees</td>
+    <td>High accuracy, robust</td>
+    <td>Slower, less interpretable</td>
+    <td>Fraud detection in insurance</td>
+  </tr>
+  <tr>
+    <td><strong>Gradient Boosting / XGBoost</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>Sequential trees correcting errors</td>
+    <td>State-of-the-art accuracy</td>
+    <td>Needs tuning; can overfit</td>
+    <td>Credit scoring, diabetes risk</td>
+  </tr>
+  <tr>
+    <td><strong>SVM</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>Maximise margin via kernel trick</td>
+    <td>Works in high dimensions</td>
+    <td>Slow on large data</td>
+    <td>Cancer cell detection</td>
+  </tr>
+  <tr>
+    <td><strong>KNN</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>Distance-based majority vote</td>
+    <td>Simple, no training phase</td>
+    <td>Slow, noise-sensitive</td>
+    <td>Patient similarity matching</td>
+  </tr>
+  <tr>
+    <td><strong>Naïve Bayes</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>Bayes' theorem + independence</td>
+    <td>Fast, good for text</td>
+    <td>Fails with correlated features</td>
+    <td>Medical report classification</td>
+  </tr>
+  <tr>
+    <td><strong>K-Means</strong></td>
+    <td><span class="tag tag-green">Unsupervised</span></td>
+    <td>Minimise intra-cluster distance</td>
+    <td>Fast, easy to implement</td>
+    <td>Needs K; sensitive to scale</td>
+    <td>Patient segmentation</td>
+  </tr>
+  <tr>
+    <td><strong>PCA</strong></td>
+    <td><span class="tag tag-green">Unsupervised</span></td>
+    <td>Eigenvectors of covariance matrix</td>
+    <td>Noise reduction, speed-up</td>
+    <td>Hard to interpret components</td>
+    <td>Gene expression analysis</td>
+  </tr>
+  <tr>
+    <td><strong>Neural Network (MLP)</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>Weighted sums + activations</td>
+    <td>Non-linear, powerful</td>
+    <td>Needs large data &amp; tuning</td>
+    <td>EHR pattern learning</td>
+  </tr>
+  <tr>
+    <td><strong>CNN</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>Convolution + pooling layers</td>
+    <td>Excellent for images</td>
+    <td>High resource demand</td>
+    <td>X-ray / MRI analysis</td>
+  </tr>
+  <tr>
+    <td><strong>RNN / LSTM</strong></td>
+    <td><span class="tag tag-blue">Supervised</span></td>
+    <td>Feedback loops over time</td>
+    <td>Time-series, text ready</td>
+    <td>Vanishing gradient</td>
+    <td>ICU vital sign prediction</td>
+  </tr>
+  <tr>
+    <td><strong>Transformer (BERT, GPT)</strong></td>
+    <td><span class="tag tag-purple">Self-supervised</span></td>
+    <td>Attention mechanism</td>
+    <td>Long context, very powerful</td>
+    <td>Heavy compute, large model</td>
+    <td>Clinical NLP, EHR summarisation</td>
+  </tr>
+</table>
+
+<div class="subsection-header"><h3>Algorithm Selection Guide</h3></div>
+<div class="card">
+  <table style="box-shadow:none;margin:0;font-size:0.9em">
+    <tr><th>Problem Type</th><th>Small Data</th><th>Large Data</th><th>Need Interpretability</th></tr>
+    <tr><td>Binary Classification</td><td>Logistic Regression, NB</td><td>XGBoost, Random Forest</td><td>Logistic Regression, Decision Tree</td></tr>
+    <tr><td>Multi-class</td><td>KNN, NB</td><td>Random Forest, XGBoost</td><td>Decision Tree</td></tr>
+    <tr><td>Regression</td><td>Linear Regression</td><td>XGBoost, Random Forest</td><td>Linear Regression</td></tr>
+    <tr><td>Image Analysis</td><td>SVM (features)</td><td>CNN</td><td>Feature Importance + SVM</td></tr>
+    <tr><td>Text Classification</td><td>Naïve Bayes</td><td>Transformer (BERT)</td><td>Naïve Bayes</td></tr>
+    <tr><td>Clustering</td><td>K-Means</td><td>K-Means, DBSCAN</td><td>Hierarchical Clustering</td></tr>
+    <tr><td>Dimensionality Reduction</td><td colspan="3" style="text-align:center">PCA (linear) · t-SNE (non-linear, visualisation only)</td></tr>
+  </table>
+</div>
+</div>
+<div class="page-num">Section 13 · Quick Reference &nbsp;|&nbsp; Page 44–45</div>
+
+<!-- ════════════════════════════════ SECTION 14: COLAB GUIDE -->
+<div class="page">
+<div class="section-header" id="s14">
+  <div class="section-num">Section 14</div>
+  <h2>🔗 How to Share Google Colab Code in Your Notes</h2>
+</div>
+
+<div class="callout callout-orange">
+  <h4>📌 Your Question</h4>
+  You asked how to share Google Colab links and include codes in these notes. Here's the complete guide — two approaches depending on what you want.
+</div>
+
+<div class="subsection-header"><h3>Method 1 — Share a Colab Notebook Link</h3></div>
+<div class="card">
+  <ol>
+    <li style="padding:8px 0;border-bottom:1px solid #f0f0f0">
+      <strong>Open your Colab notebook</strong> at <code>colab.research.google.com</code>
+    </li>
+    <li style="padding:8px 0;border-bottom:1px solid #f0f0f0">
+      Click <strong>Share</strong> (top right) → <em>"Change to anyone with the link"</em> → set to <strong>Viewer</strong> (or Editor if you want collaboration)
+    </li>
+    <li style="padding:8px 0;border-bottom:1px solid #f0f0f0">
+      Click <strong>"Copy link"</strong> → you get a URL like:<br>
+      <code style="background:#f0f4ff;padding:4px 8px;border-radius:4px;font-size:0.85em">https://colab.research.google.com/drive/1AbCdEfGhIjKlMnOpQrStUvWxYz</code>
+    </li>
+    <li style="padding:8px 0">
+      Paste that link into your notes (HTML anchor tag or just the URL). Anyone who clicks it opens a <strong>read-only copy</strong> in their browser — no download needed.
+    </li>
+  </ol>
+</div>
+
+<div class="subsection-header"><h3>Method 2 — Open in Colab Badge (Best Practice)</h3></div>
+<div class="card">
+  <p>Add a clickable badge button next to any code section in your HTML notes:</p>
+  <div class="code-block"><span class="code-label">HTML — embed Open in Colab button</span>
+&lt;a href="YOUR_COLAB_LINK_HERE" target="_blank"&gt;
+  &lt;img src="https://colab.research.google.com/assets/colab-badge.svg"
+       alt="Open In Colab" /&gt;
+&lt;/a&gt;</div>
+  <p style="margin-top:8px">This renders a button: <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="vertical-align:middle;height:22px"></p>
+</div>
+
+<div class="subsection-header"><h3>How Codes Are Already Embedded in These Notes</h3></div>
+<div class="card">
+  <p>Every code block in these notes follows this format — paste your Colab link right above it:</p>
+
+  <div class="colab-box">
+    <h4>📓 Full Code on Colab</h4>
+    🔗 Replace this text with your actual link:<br>
+    <code style="background:rgba(0,0,0,0.2);padding:4px 8px;border-radius:4px;font-size:0.85em">https://colab.research.google.com/drive/YOUR_NOTEBOOK_ID</code>
+  </div>
+
+  <div class="code-block" style="margin-top:0"><span class="code-label">Python — Example shown inline</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+df = pd.read_csv(<span class="st">'diabetes.csv'</span>)
+df.head()</div>
+</div>
+
+<div class="subsection-header"><h3>Recommended Colab Notebooks to Create</h3></div>
+<table>
+  <tr><th>#</th><th>Notebook Name</th><th>What to Include</th></tr>
+  <tr><td>1</td><td>Python_Basics_NumPy_Pandas_Matplotlib.ipynb</td><td>All code from Section 1 of these notes</td></tr>
+  <tr><td>2</td><td>EDA_Diabetes_Dataset.ipynb</td><td>Load diabetes.csv → full EDA, visualisations, PCA</td></tr>
+  <tr><td>3</td><td>Feature_Engineering.ipynb</td><td>Scaling, encoding, feature selection (filter/wrapper/embedded)</td></tr>
+  <tr><td>4</td><td>ML_Models_Comparison.ipynb</td><td>KNN, NB, SVM, RF, XGBoost on diabetes.csv — compare accuracy</td></tr>
+  <tr><td>5</td><td>CNN_Image_Classification.ipynb</td><td>CNN on medical image dataset (e.g. chest X-ray) using Keras</td></tr>
+  <tr><td>6</td><td>Gradient_Descent_Scratch.ipynb</td><td>Gradient descent from scratch (lecture notes recreated in code)</td></tr>
+</table>
+
+<div class="subsection-header"><h3>Tips for Colab</h3></div>
+<div class="grid-2">
+  <div class="callout callout-blue">
+    <h4>💡 Save to GitHub</h4>
+    Colab → File → Save a copy in GitHub<br>
+    GitHub notebooks auto-render AND generate Colab links. Share the GitHub URL and add <code>?badge=1</code> to get the badge.
+  </div>
+  <div class="callout callout-green">
+    <h4>💡 Runtime Tips</h4>
+    <ul class="key-points">
+      <li>Runtime → Change runtime type → GPU for deep learning</li>
+      <li>Mount Google Drive: <code>from google.colab import drive; drive.mount('/content/drive')</code></li>
+      <li>Install packages: <code>!pip install xgboost</code></li>
+    </ul>
+  </div>
+</div>
+
+<div class="colab-box" style="margin-top:20px">
+  <h4>🔗 Template — Add This Above Every Code Section in Future Notes</h4>
+  <p style="font-size:0.9em;margin-top:4px">Paste your Colab link here → readers click → run the code live without any setup</p>
+  <code style="background:rgba(0,0,0,0.2);padding:6px 12px;border-radius:4px;font-size:0.85em;display:block;margin-top:8px">
+    ▶ Run this notebook: https://colab.research.google.com/drive/[YOUR_ID]
+  </code>
+</div>
+</div>
+<div class="page-num">Section 14 · Google Colab Guide &nbsp;|&nbsp; Page 46–47</div>
+
+<!-- ════════════════════════════════════════════════ BACK COVER -->
+<div style="background:linear-gradient(135deg,#1a237e,#0288d1,#00695c);color:white;padding:60px 80px;margin-top:40px;text-align:center">
+  <div style="font-size:2.5em;margin-bottom:16px">✅</div>
+  <h2 style="font-size:2em;margin-bottom:12px">Notes Complete</h2>
+  <p style="opacity:0.85;max-width:600px;margin:0 auto;font-size:1.05em">
+    These notes cover all content from the AI in Healthcare June Series lectures:
+    PPTs, DOCX reference sheets, and handwritten/screenshot notes from sessions on
+    Jul 8, 15, 18, 19, and 21.
+  </p>
+  <div style="margin-top:30px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+    <span style="background:rgba(255,255,255,0.15);border-radius:20px;padding:6px 18px;font-size:0.9em">14 Sections</span>
+    <span style="background:rgba(255,255,255,0.15);border-radius:20px;padding:6px 18px;font-size:0.9em">47 Pages</span>
+    <span style="background:rgba(255,255,255,0.15);border-radius:20px;padding:6px 18px;font-size:0.9em">12 Code Blocks</span>
+    <span style="background:rgba(255,255,255,0.15);border-radius:20px;padding:6px 18px;font-size:0.9em">10 Algorithms</span>
+    <span style="background:rgba(255,255,255,0.15);border-radius:20px;padding:6px 18px;font-size:0.9em">18 Screenshots Incorporated</span>
+  </div>
+  <p style="margin-top:30px;opacity:0.6;font-size:0.85em">AI in Healthcare — June Series · July 2026</p>
+</div>
+
+</body>
+</html>
