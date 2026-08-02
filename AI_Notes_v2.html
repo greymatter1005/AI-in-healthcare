@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI in Healthcare - Complete Study Notes</title>
+<style>
+:root{--primary:#1a73e8;--secondary:#34a853;--accent:#ea4335;--warn:#fbbc05;--bg:#f8f9fa;--card:#fff;--dark:#202124;--mid:#5f6368;--light:#e8f0fe;--code-bg:#1e1e2e;--explain-bg:#e8f5e9;--border:#dadce0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--dark);line-height:1.7}
+.header{background:linear-gradient(135deg,#1a73e8,#0d47a1);color:#fff;padding:40px;text-align:center}
+.header h1{font-size:2.4em;margin-bottom:10px}
+.header p{font-size:1.1em;opacity:.9}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;margin:30px auto;max-width:900px}
+.toc h2{color:var(--primary);margin-bottom:16px}
+.toc ol{padding-left:22px}
+.toc li{margin:6px 0}
+.toc a{color:var(--primary);text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.section{background:var(--card);border-radius:12px;padding:32px;margin:24px auto;max-width:900px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.section-header{background:linear-gradient(90deg,var(--primary),#1557b0);color:#fff;padding:14px 22px;border-radius:8px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:center}
+.section-header h2{font-size:1.4em;margin:0}
+.page-num{background:rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:.85em}
+.subsection{margin:22px 0}
+.subsection h3{color:var(--primary);font-size:1.15em;border-bottom:2px solid var(--light);padding-bottom:6px;margin-bottom:12px}
+.subsection h4{color:var(--mid);font-size:1em;margin:12px 0 6px}
+.callout{border-left:4px solid var(--warn);background:#fff8e1;border-radius:0 8px 8px 0;padding:14px 18px;margin:14px 0}
+.callout.blue{border-color:var(--primary);background:var(--light)}
+.callout.green{border-color:var(--secondary);background:#f0fdf4}
+.callout.red{border-color:var(--accent);background:#fef2f2}
+.callout strong{display:block;margin-bottom:4px}
+.code-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+@media(max-width:700px){.code-pair{grid-template-columns:1fr}}
+.code-block{background:var(--code-bg);color:#cdd6f4;border-radius:8px;padding:16px;font-family:'Courier New',monospace;font-size:.82em;line-height:1.6;overflow-x:auto;position:relative}
+.code-block .lang-tag{position:absolute;top:6px;right:10px;font-size:.7em;color:#6c7086;font-family:sans-serif}
+.keyword{color:#cba6f7}
+.string{color:#a6e3a1}
+.comment{color:#6c7086;font-style:italic}
+.number{color:#fab387}
+.func{color:#89b4fa}
+.var{color:#f38ba8}
+.code-explain{background:var(--explain-bg);border:1px solid #a8d5b5;border-radius:8px;padding:16px;font-size:.88em}
+.code-explain .explain-title{color:#2e7d32;font-weight:700;font-size:.95em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.code-explain ul{padding-left:18px}
+.code-explain li{margin:5px 0}
+.colab-badge{display:inline-block;margin:10px 0}
+.colab-badge img{height:22px}
+.badge-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}
+.badge-row span{font-size:.9em;color:var(--mid)}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9em}
+th{background:var(--primary);color:#fff;padding:10px 12px;text-align:left}
+td{padding:9px 12px;border-bottom:1px solid var(--border)}
+tr:nth-child(even) td{background:#f5f8ff}
+.chip{display:inline-block;background:var(--light);color:var(--primary);border-radius:20px;padding:2px 12px;font-size:.8em;margin:3px}
+.step-box{display:flex;gap:14px;margin:10px 0;align-items:flex-start}
+.step-num{background:var(--primary);color:#fff;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.9em}
+.step-text{flex:1;padding-top:4px}
+.analogy-box{background:#fff3e0;border:1px solid #ffb74d;border-radius:8px;padding:14px 18px;margin:14px 0}
+.analogy-box strong{color:#e65100;display:block;margin-bottom:4px}
+.formula-box{background:#f3e5f5;border:1px solid #ce93d8;border-radius:8px;padding:14px 18px;margin:14px 0;font-family:monospace;font-size:.95em}
+.formula-box strong{color:#6a1b9a;display:block;margin-bottom:6px;font-family:sans-serif}
+.highlight{background:#fff176;padding:1px 4px;border-radius:3px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+@media(max-width:600px){.grid-3{grid-template-columns:1fr}}
+.mini-card{background:var(--light);border-radius:8px;padding:14px;text-align:center}
+.mini-card strong{display:block;color:var(--primary);margin-bottom:4px}
+.outcome-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.8em;font-weight:600}
+.outcome-0{background:#e8f5e9;color:#2e7d32}
+.outcome-1{background:#fce4ec;color:#b71c1c}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏥 AI in Healthcare — Complete Study Notes</h1>
+  <p>Crafted for Medical Professionals | All 13 Notebooks Integrated | Code + Plain-English Explanations</p>
+  <p style="margin-top:8px;font-size:.9em;opacity:.75">Pima Indians Diabetes Dataset · Python · Scikit-learn · TensorFlow · Bioinformatics</p>
+</div>
+
+<div class="toc">
+  <h2>📋 Table of Contents</h2>
+  <ol>
+    <li><a href="#s1">Python Basics for Bioinformatics</a></li>
+    <li><a href="#s2">Core Python Libraries</a></li>
+    <li><a href="#s3">The Pima Indians Diabetes Dataset</a></li>
+    <li><a href="#s4">Data Cleaning</a></li>
+    <li><a href="#s5">Exploratory Data Analysis (EDA)</a></li>
+    <li><a href="#s6">Feature Engineering</a></li>
+    <li><a href="#s7">Machine Learning Basics</a></li>
+    <li><a href="#s8">Linear Regression &amp; Gradient Descent</a></li>
+    <li><a href="#s9">K-Nearest Neighbors (KNN)</a></li>
+    <li><a href="#s10">Naïve Bayes</a></li>
+    <li><a href="#s11">Support Vector Machine (SVM)</a></li>
+    <li><a href="#s12">Decision Tree</a></li>
+    <li><a href="#s13">Random Forest</a></li>
+    <li><a href="#s14">XGBoost</a></li>
+    <li><a href="#s15">Neural Networks &amp; Deep Learning</a></li>
+    <li><a href="#s16">PCA — Dimensionality Reduction</a></li>
+  </ol>
+</div>
+
+<!-- SECTION 1: Python Basics for Bioinformatics -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <h2>§1 · Python Basics for Bioinformatics</h2>
+    <span class="page-num">Page 1</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Basic%20to%20advance%20Bioinformatics.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Basic to advance Bioinformatics.ipynb</span>
+  </div>
+
+  <div class="callout blue">
+    <strong>🩺 Why Python for Medicine?</strong>
+    Python is the stethoscope of data science. Just as a stethoscope amplifies sounds you couldn't otherwise hear, Python amplifies patterns hidden in clinical data — patient records, genomic sequences, imaging results. It's free, readable, and the entire global research community uses it.
+  </div>
+
+  <div class="subsection">
+    <h3>1.1 Variables &amp; Data Types</h3>
+    <p>A variable is like a labelled test tube — it holds a value you can refer to by name.</p>
+    <div class="code-pair">
+      <div class="code-block">
+        <span class="lang-tag">Python</span>
+<span class="comment"># A DNA sequence stored as text</span>
+<span class="var">dna_seq</span> = <span class="string">"ATGCGTACGTA"</span>
+<span class="func">print</span>(dna_seq)          <span class="comment"># ATGCGTACGTA</span>
+
+<span class="comment"># An integer — whole number</span>
+<span class="var">gene_count</span> = <span class="number">27</span>
+<span class="func">print</span>(gene_count)
+
+<span class="comment"># A float — decimal number</span>
+<span class="var">expression_level</span> = <span class="number">15.23</span>
+
+<span class="comment"># Boolean — True or False</span>
+<span class="var">is_expressed</span> = <span class="keyword">True</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>String</strong> (text in quotes) → like writing "ATGCGTACGTA" on a tube label. Any sequence of letters.</li>
+          <li><strong>Integer</strong> → whole numbers only, e.g. 27 genes. No decimals.</li>
+          <li><strong>Float</strong> → numbers with decimal places, e.g. 15.23 expression units or a BMI of 28.5.</li>
+          <li><strong>Boolean</strong> → only two values: True or False. Like a positive/negative test result.</li>
+          <li><code>print()</code> → displays the value on screen, like echoing a result to the console.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>1.2 Conditional Statements</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="var">age</span> = <span class="number">15</span>
+<span class="keyword">if</span> age >= <span class="number">18</span>:
+    <span class="func">print</span>(<span class="string">"You are an adult"</span>)
+<span class="keyword">else</span>:
+    <span class="func">print</span>(<span class="string">"You are a minor"</span>)
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li>This is exactly like a clinical decision rule: <em>IF glucose &gt; 126 mg/dL THEN diagnose diabetes, ELSE normal.</em></li>
+          <li><code>&gt;=</code> means "greater than or equal to."</li>
+          <li>Python uses <strong>indentation</strong> (spaces) to define what's inside the if-block — like paragraphs in a protocol.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>1.3 Loops</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="comment"># For loop — repeat for each item</span>
+<span class="var">sequences</span> = [<span class="string">"ATGC"</span>, <span class="string">"CGTA"</span>, <span class="string">"TGAG"</span>]
+<span class="keyword">for</span> seq <span class="keyword">in</span> sequences:
+    <span class="func">print</span>(seq, <span class="func">len</span>(seq))
+
+<span class="comment"># While loop — repeat until condition false</span>
+<span class="var">n</span> = <span class="number">5</span>
+<span class="keyword">while</span> n > <span class="number">0</span>:
+    <span class="func">print</span>(n)
+    n -= <span class="number">1</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>For loop</strong> = going through each patient record in a ward round list, one by one.</li>
+          <li><strong>While loop</strong> = keep giving a drug every hour <em>while</em> the patient's fever is above 38°C.</li>
+          <li><code>len(seq)</code> returns the length — like counting base pairs.</li>
+          <li><code>n -= 1</code> is shorthand for <code>n = n - 1</code> — reduces n by 1 each iteration.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>1.4 Functions</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">def</span> <span class="func">complement</span>(seq):
+    base_pairs = {<span class="string">'A'</span>:<span class="string">'T'</span>, <span class="string">'T'</span>:<span class="string">'A'</span>,
+                  <span class="string">'C'</span>:<span class="string">'G'</span>, <span class="string">'G'</span>:<span class="string">'C'</span>}
+    <span class="keyword">return</span> <span class="string">''</span>.join([base_pairs[b] <span class="keyword">for</span> b <span class="keyword">in</span> seq])
+
+<span class="func">print</span>(<span class="func">complement</span>(<span class="string">"ATGC"</span>))
+<span class="comment"># Output: TACG</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li>A <strong>function</strong> is a reusable procedure — like a standard operating procedure (SOP). Define it once, call it many times.</li>
+          <li><code>def</code> declares the function; the name is <code>complement</code>; it takes a sequence <code>seq</code> as input.</li>
+          <li>The dictionary <code>{}</code> maps each base to its complement — like a lookup table in a lab manual.</li>
+          <li><code>return</code> sends the result back — like reporting a test result.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: Core Libraries -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <h2>§2 · Core Python Libraries</h2>
+    <span class="page-num">Page 2</span>
+  </div>
+
+  <div class="callout blue">
+    <strong>🩺 Think of libraries as specialised instruments in your lab.</strong>
+    You don't build a centrifuge from scratch — you use one. Similarly, these libraries give you pre-built tools for numbers, tables, graphs, and machine learning.
+  </div>
+
+  <div class="grid-3">
+    <div class="mini-card"><strong>NumPy</strong>Fast math on arrays</div>
+    <div class="mini-card"><strong>Pandas</strong>Tables &amp; spreadsheets</div>
+    <div class="mini-card"><strong>Matplotlib / Seaborn</strong>Charts &amp; graphs</div>
+    <div class="mini-card"><strong>Scikit-learn</strong>ML algorithms</div>
+    <div class="mini-card"><strong>TensorFlow / Keras</strong>Deep learning</div>
+    <div class="mini-card"><strong>XGBoost</strong>Boosted decision trees</div>
+  </div>
+
+  <div class="subsection">
+    <h3>2.1 NumPy — Numerical Operations</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="var">arr</span> = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])
+<span class="func">print</span>(<span class="string">"Mean:"</span>, np.mean(arr))
+<span class="func">print</span>(<span class="string">"Std Dev:"</span>, np.std(arr))
+<span class="comment"># Mean: 3.0  |  Std Dev: 1.41</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><code>np.array([...])</code> — creates a list of numbers that NumPy can do fast maths on. Like entering values into a calculator.</li>
+          <li><code>np.mean()</code> — the arithmetic mean (average). Same as what you calculate for patient vitals.</li>
+          <li><code>np.std()</code> — standard deviation, telling you how spread out the values are. High SD = wide variation in your data.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>2.2 Pandas — Data Tables</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+data = {<span class="string">"Name"</span>: [<span class="string">"Alice"</span>, <span class="string">"Bob"</span>, <span class="string">"Charlie"</span>],
+        <span class="string">"Marks"</span>: [<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>]}
+
+<span class="var">df</span> = pd.DataFrame(data)
+<span class="func">print</span>(df)
+
+<span class="comment"># Access one column</span>
+<span class="func">print</span>(df[<span class="string">"Marks"</span>])
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>DataFrame (df)</strong> is exactly like a spreadsheet or a patient registry — rows are patients, columns are variables (age, glucose, BMI…).</li>
+          <li><code>pd.DataFrame(data)</code> builds the table from a dictionary of columns.</li>
+          <li><code>df["Marks"]</code> selects a single column — like highlighting one column in Excel.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>2.3 Matplotlib — Visualisation</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]
+y = [<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">10</span>]
+
+plt.plot(x, y, marker=<span class="string">'o'</span>, color=<span class="string">'blue'</span>)
+plt.xlabel(<span class="string">"X-axis"</span>)
+plt.ylabel(<span class="string">"Y-axis"</span>)
+plt.title(<span class="string">"Simple Line Plot"</span>)
+plt.show()
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><code>plt.plot(x, y)</code> — draws a line connecting the x,y points. Like plotting a fever chart over time.</li>
+          <li><code>marker='o'</code> — puts a circle at each data point.</li>
+          <li><code>plt.xlabel / ylabel / title</code> — labels the axes and the chart — always label your graphs!</li>
+          <li><code>plt.show()</code> — displays the chart.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>2.4 Scikit-learn — Quick ML Example</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># Study hours vs exam marks</span>
+X = np.array([[<span class="number">1</span>],[<span class="number">2</span>],[<span class="number">3</span>],[<span class="number">4</span>],[<span class="number">5</span>]])
+y = np.array([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>])
+
+model = LinearRegression()
+model.fit(X, y)
+
+<span class="func">print</span>(model.predict([[<span class="number">9</span>]]))
+<span class="comment"># Predicted Marks for 9 hours: [90.]</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li>This is the simplest ML pipeline: give the model examples → it learns a pattern → it predicts new values.</li>
+          <li><code>model.fit(X, y)</code> — "training" the model. Like teaching a junior doctor with case studies.</li>
+          <li><code>model.predict([[9]])</code> — asking the trained model: "if a student studies 9 hours, what mark do they get?" Answer: 90.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: The Diabetes Dataset -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <h2>§3 · The Pima Indians Diabetes Dataset</h2>
+    <span class="page-num">Page 3</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Pima%20Indians%20Diabetes%20Dataset.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Pima Indians Diabetes Dataset.ipynb</span>
+  </div>
+
+  <div class="callout blue">
+    <strong>🩺 Our Main Patient Cohort</strong>
+    This is a real-world clinical dataset of 769 female patients of Pima Indian heritage, aged ≥21. The goal: predict whether a patient has diabetes (Outcome = 1) or not (Outcome = 0) based on 8 clinical measurements. This dataset is used in almost every notebook in this course.
+  </div>
+
+  <table>
+    <tr><th>Column</th><th>Medical Meaning</th><th>Range</th></tr>
+    <tr><td>Pregnancies</td><td>Number of times pregnant</td><td>0–17</td></tr>
+    <tr><td>Glucose</td><td>Plasma glucose (2h oral glucose tolerance test) mg/dL</td><td>44–199</td></tr>
+    <tr><td>BloodPressure</td><td>Diastolic BP (mm Hg)</td><td>24–122</td></tr>
+    <tr><td>SkinThickness</td><td>Triceps skin fold thickness (mm)</td><td>7–99</td></tr>
+    <tr><td>Insulin</td><td>2-Hour serum insulin (μU/mL)</td><td>14–846</td></tr>
+    <tr><td>BMI</td><td>Body mass index (kg/m²)</td><td>18.2–67.1</td></tr>
+    <tr><td>DiabetesPedigreeFunction</td><td>Genetic risk score based on family history</td><td>0.078–2.42</td></tr>
+    <tr><td>Age</td><td>Age in years</td><td>21–81</td></tr>
+    <tr><td><strong>Outcome</strong></td><td><strong>Target: 1 = Diabetic, 0 = Non-diabetic</strong></td><td>0 or 1</td></tr>
+  </table>
+
+  <div class="subsection">
+    <h3>3.1 Loading &amp; Exploring the Dataset</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns
+
+<span class="comment"># Load dataset</span>
+<span class="var">df</span> = pd.read_csv(<span class="string">"diabetes.csv"</span>)
+
+<span class="comment"># Step 3: Display first 5 rows</span>
+df.head()
+<span class="comment"># 769 rows × 9 columns</span>
+
+<span class="comment"># Step 4: Dataset info</span>
+df.info()
+<span class="comment"># 769 entries, dtypes: float64(2), int64(7)</span>
+
+<span class="comment"># Step 5: Statistical summary</span>
+df.describe()
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><code>pd.read_csv("diabetes.csv")</code> — reads the data file into a table (DataFrame). Like importing a patient spreadsheet.</li>
+          <li><code>df.head()</code> — shows first 5 rows. Like looking at the first few patient records in a registry.</li>
+          <li><code>df.shape</code> → returns (769, 9) — 769 patients, 9 columns. Your sample size and variables.</li>
+          <li><code>df.info()</code> — shows column names, data types, and whether there are missing values.</li>
+          <li><code>df.describe()</code> — gives mean, standard deviation, min, max, quartiles for each column. Your descriptive statistics table.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>⚠️ Data Quality Alert — Biologically Impossible Zeros</strong>
+      In this dataset, values of 0 in Glucose, BloodPressure, SkinThickness, Insulin, and BMI are NOT real zeros — they are missing values recorded as 0. A person cannot have a Glucose of 0 and be alive! These need to be cleaned before any analysis.
+    </div>
+
+    <h3>3.2 Training a Logistic Regression Model</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, confusion_matrix
+
+<span class="comment"># Features vs Target</span>
+X = df.drop(<span class="string">"Outcome"</span>, axis=<span class="number">1</span>)
+y = df[<span class="string">"Outcome"</span>]
+
+<span class="comment"># Split: 80% train, 20% test</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+
+<span class="comment"># Train model</span>
+model = LogisticRegression(max_iter=<span class="number">200</span>)
+model.fit(X_train, y_train)
+
+<span class="comment"># Predict on test set</span>
+y_pred = model.predict(X_test)
+<span class="func">print</span>(<span class="string">"Accuracy:"</span>, accuracy_score(y_test, y_pred))
+<span class="comment"># Accuracy: 0.747</span>
+
+<span class="comment"># Predict for a new patient</span>
+new_patient = np.array([[<span class="number">2</span>, <span class="number">130</span>, <span class="number">70</span>, <span class="number">20</span>, <span class="number">85</span>, <span class="number">28.0</span>, <span class="number">0.35</span>, <span class="number">45</span>]])
+model.predict(new_patient)  <span class="comment"># [0] or [1]</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><code>X</code> = features (all 8 clinical variables). <code>y</code> = target (0/1 diabetes outcome).</li>
+          <li><code>train_test_split</code> — splits your 769 patients randomly: 615 for training, 154 for testing. Like using old patient records to train, then testing on new patients.</li>
+          <li><code>LogisticRegression</code> — despite the name, this is a <em>classification</em> algorithm. It gives a probability (0–1) of having diabetes.</li>
+          <li><code>model.fit()</code> — the model learns from 615 training patients.</li>
+          <li><code>accuracy_score = 0.747</code> — the model correctly classifies 74.7% of the 154 test patients.</li>
+          <li><strong>New patient prediction:</strong> 2 pregnancies, glucose 130, BP 70, skin 20mm, insulin 85, BMI 28, pedigree 0.35, age 45 → model predicts diabetic or not.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: Data Cleaning -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <h2>§4 · Data Cleaning</h2>
+    <span class="page-num">Page 4</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Data%20Cleaning.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Data Cleaning.ipynb</span>
+  </div>
+
+  <div class="analogy-box">
+    <strong>🩺 Medical Analogy</strong>
+    Data cleaning = quality control in a lab. Before you run any assay, you verify sample integrity, discard contaminated specimens, and handle any missing labels. If you skip this step, your results are unreliable — garbage in, garbage out.
+  </div>
+
+  <div class="subsection">
+    <h3>4.1 The 7-Step Data Cleaning Pipeline</h3>
+    <div class="step-box"><div class="step-num">1</div><div class="step-text"><strong>Import Libraries</strong> — load pandas, numpy, matplotlib, seaborn</div></div>
+    <div class="step-box"><div class="step-num">2</div><div class="step-text"><strong>Upload Dataset</strong> — use <code>files.upload()</code> in Colab or load from path</div></div>
+    <div class="step-box"><div class="step-num">3</div><div class="step-text"><strong>Load &amp; View</strong> — <code>df.head()</code>, <code>df.tail()</code>, <code>df.shape</code></div></div>
+    <div class="step-box"><div class="step-num">4</div><div class="step-text"><strong>Understand Data</strong> — <code>df.info()</code>, <code>df.describe()</code>, <code>df.dtypes</code></div></div>
+    <div class="step-box"><div class="step-num">5</div><div class="step-text"><strong>Check Missing Values</strong> — <code>df.isnull().sum()</code></div></div>
+    <div class="step-box"><div class="step-num">6</div><div class="step-text"><strong>Clean Data</strong> — handle missing values, fix impossible zeros, remove duplicates</div></div>
+    <div class="step-box"><div class="step-num">7</div><div class="step-text"><strong>EDA</strong> — visualise distributions, correlations</div></div>
+
+    <h3>4.2 The Critical Cleaning Step — Handling Impossible Zeros</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># Columns that CANNOT be zero in a living person</span>
+columns = [<span class="string">'Glucose'</span>, <span class="string">'BloodPressure'</span>,
+           <span class="string">'SkinThickness'</span>, <span class="string">'Insulin'</span>, <span class="string">'BMI'</span>]
+
+<span class="comment"># Step 1: Replace 0 with NaN (missing)</span>
+df[columns] = df[columns].replace(<span class="number">0</span>, np.nan)
+
+<span class="comment"># Step 2: Check how many missing per column</span>
+<span class="func">print</span>(df[columns].isnull().sum())
+
+<span class="comment"># Step 3: Fill missing with column MEDIAN</span>
+<span class="keyword">for</span> col <span class="keyword">in</span> columns:
+    df[col] = df[col].fillna(df[col].median())
+
+<span class="comment"># Verify: no more zeros</span>
+<span class="func">print</span>(df[columns].isnull().sum())
+<span class="comment"># All zeros</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li>This is the most important cleaning step in this dataset. Zero glucose or zero BMI is biologically impossible — these were entered as 0 when the value was unknown.</li>
+          <li><code>df.replace(0, np.nan)</code> — converts all 0s in those columns to NaN (Not a Number) — Python's way of saying "missing data."</li>
+          <li><code>df.isnull().sum()</code> — counts how many missing values per column. Like auditing your lab records for blanks.</li>
+          <li><strong>Why fill with median?</strong> The median is resistant to outliers. If one patient has an extreme glucose of 199, the mean would be pulled high. The median stays stable — like using the interquartile range in clinical stats.</li>
+          <li><code>df[col].fillna(df[col].median())</code> — replaces each NaN with that column's median value.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>4.3 Removing Duplicates &amp; Checking Data Types</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="comment"># Check for duplicate rows</span>
+<span class="func">print</span>(df.duplicated().sum())
+
+<span class="comment"># Remove duplicates</span>
+df = df.drop_duplicates()
+
+<span class="comment"># Check data types</span>
+<span class="func">print</span>(df.dtypes)
+
+<span class="comment"># Convert type if needed</span>
+df[<span class="string">'Outcome'</span>] = df[<span class="string">'Outcome'</span>].astype(<span class="func">int</span>)
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><code>df.duplicated().sum()</code> — finds rows that appear more than once. Like catching the same patient registered twice in your database.</li>
+          <li><code>drop_duplicates()</code> — removes those duplicate entries.</li>
+          <li><code>df.dtypes</code> — shows whether each column is an integer, float, or text. The model needs numbers, not text.</li>
+          <li><code>astype(int)</code> — converts the outcome column to integer (0 or 1). Like standardising units across a dataset.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: EDA -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <h2>§5 · Exploratory Data Analysis (EDA)</h2>
+    <span class="page-num">Page 5</span>
+  </div>
+
+  <div class="callout green">
+    <strong>🩺 EDA = Clinical Audit of Your Data</strong>
+    Before starting treatment (building a model), you review the patient notes (the data). EDA reveals patterns, outliers, and relationships — exactly like a systematic case review before forming a differential diagnosis.
+  </div>
+
+  <div class="subsection">
+    <h3>5.1 The 8 Steps of EDA</h3>
+    <div class="step-box"><div class="step-num">1</div><div class="step-text"><strong>Shape &amp; Size</strong> — how many rows and columns?</div></div>
+    <div class="step-box"><div class="step-num">2</div><div class="step-text"><strong>Data Types</strong> — numeric, categorical, text?</div></div>
+    <div class="step-box"><div class="step-num">3</div><div class="step-text"><strong>Missing Values</strong> — how many blanks?</div></div>
+    <div class="step-box"><div class="step-num">4</div><div class="step-text"><strong>Descriptive Statistics</strong> — mean, SD, quartiles</div></div>
+    <div class="step-box"><div class="step-num">5</div><div class="step-text"><strong>Univariate Analysis</strong> — one variable at a time (histograms)</div></div>
+    <div class="step-box"><div class="step-num">6</div><div class="step-text"><strong>Bivariate Analysis</strong> — two variables (scatter plots, box plots)</div></div>
+    <div class="step-box"><div class="step-num">7</div><div class="step-text"><strong>Multivariate Analysis</strong> — multiple variables (heatmap, pairplot)</div></div>
+    <div class="step-box"><div class="step-num">8</div><div class="step-text"><strong>Outlier Detection</strong> — identify anomalies</div></div>
+
+    <h3>5.2 Univariate Analysis</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+<span class="comment"># Distribution of Glucose levels</span>
+sns.histplot(df[<span class="string">'Glucose'</span>], bins=<span class="number">30</span>, kde=<span class="keyword">True</span>)
+plt.title(<span class="string">'Glucose Distribution'</span>)
+plt.show()
+
+<span class="comment"># Check class balance (Diabetic vs Not)</span>
+df[<span class="string">'Outcome'</span>].value_counts().plot(kind=<span class="string">'bar'</span>)
+plt.title(<span class="string">'Outcome Distribution'</span>)
+plt.show()
+<span class="comment"># 500 non-diabetic, 268 diabetic</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>Univariate</strong> = one variable at a time. Like examining a single lab value across all your patients.</li>
+          <li><code>histplot</code> — draws a histogram (frequency chart). Shows you whether glucose follows a bell curve or is skewed.</li>
+          <li><code>kde=True</code> — adds a smooth probability curve on top of the histogram. Like a density plot in epidemiology.</li>
+          <li><strong>Class imbalance:</strong> 500 non-diabetic vs 268 diabetic (35% prevalence). This matters — an imbalanced dataset can fool a naive model into predicting "no diabetes" for everyone and still be 65% "accurate"!</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>5.3 Bivariate Analysis — Scatter &amp; Box Plots</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="comment"># Scatter: Glucose vs BMI coloured by Outcome</span>
+sns.scatterplot(data=df, x=<span class="string">'Glucose'</span>, y=<span class="string">'BMI'</span>,
+                hue=<span class="string">'Outcome'</span>)
+plt.title(<span class="string">'Glucose vs BMI'</span>)
+plt.show()
+
+<span class="comment"># Box plot: glucose by diabetes status</span>
+sns.boxplot(x=<span class="string">'Outcome'</span>, y=<span class="string">'Glucose'</span>, data=df)
+plt.title(<span class="string">'Glucose by Diabetic Status'</span>)
+plt.show()
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>Bivariate</strong> = looking at two variables simultaneously. Like comparing HbA1c with BMI in your diabetic clinic patients.</li>
+          <li><code>hue='Outcome'</code> — colours dots differently for diabetics (1) vs non-diabetics (0). You'll see the two groups separate.</li>
+          <li><strong>Box plot</strong> — shows median (line in box), IQR (box), and outliers (dots). Like a clinical statistics summary for each group.</li>
+          <li>Clinically expected finding: diabetic patients (Outcome=1) have higher median glucose — the box plot should confirm this.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>5.4 Multivariate — Correlation Heatmap</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="comment"># Correlation matrix heatmap</span>
+plt.figure(figsize=(<span class="number">10</span>, <span class="number">8</span>))
+sns.heatmap(df.corr(),
+            annot=<span class="keyword">True</span>,
+            cmap=<span class="string">'coolwarm'</span>,
+            fmt=<span class="string">'.2f'</span>)
+plt.title(<span class="string">'Feature Correlation Heatmap'</span>)
+plt.show()
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li>A <strong>correlation heatmap</strong> shows how strongly each variable is related to every other variable. Like a covariance matrix in biostatistics.</li>
+          <li>Values range from -1 (perfect negative correlation) to +1 (perfect positive correlation). 0 = no linear relationship.</li>
+          <li><code>annot=True</code> — prints the correlation number in each cell.</li>
+          <li><code>cmap='coolwarm'</code> — red = high positive correlation, blue = high negative. Warm colours = variables that move together.</li>
+          <li>Key finding: Glucose has the strongest correlation with Outcome — confirming clinical knowledge that high glucose = higher diabetes risk.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6: Feature Engineering -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <h2>§6 · Feature Engineering</h2>
+    <span class="page-num">Page 6</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Feature%20Engineering.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Feature Engineering.ipynb</span>
+  </div>
+
+  <div class="analogy-box">
+    <strong>🩺 Medical Analogy</strong>
+    Feature engineering = reformatting your clinical data to make it more informative. Like converting raw spirometry values into FEV1/FVC ratio — you're creating a derived, more useful variable from raw measurements.
+  </div>
+
+  <div class="subsection">
+    <h3>6.1 One-Hot Encoding — Converting Categories to Numbers</h3>
+    <p>ML models only understand numbers. "Blood type O" needs to become 1 or 0. This is called encoding.</p>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+data = {<span class="string">'Color'</span>: [<span class="string">'Red'</span>, <span class="string">'Blue'</span>, <span class="string">'Green'</span>,
+                  <span class="string">'Blue'</span>, <span class="string">'yellow'</span>, <span class="string">'orange'</span>]}
+df = pd.DataFrame(data)
+
+<span class="comment"># One-hot encode: each category → own column</span>
+df_encoded = pd.get_dummies(df, columns=[<span class="string">'Color'</span>],
+                            prefix=<span class="string">'Color'</span>)
+<span class="func">print</span>(df_encoded)
+<span class="comment"># Color_Blue  Color_Green  Color_Red  ...
+# False       False        True       ...
+# True        False        False      ...</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li>You cannot feed text like "Red" or "Blue" into a mathematical model. One-hot encoding converts each unique category into its own column of True/False.</li>
+          <li><strong>Medical example:</strong> Blood group (A/B/AB/O) → 4 new columns: BloodGroup_A, BloodGroup_B, BloodGroup_AB, BloodGroup_O. A patient with blood group A gets: 1, 0, 0, 0.</li>
+          <li><code>pd.get_dummies()</code> — does this automatically for you. <code>prefix</code> adds a label to new column names.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>6.2 Binning — Converting Continuous to Categories</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+data = {<span class="string">'Age'</span>: [<span class="number">0</span>, <span class="number">23</span>, <span class="number">45</span>, <span class="number">18</span>, <span class="number">34</span>,
+                <span class="number">67</span>, <span class="number">50</span>, <span class="number">21</span>, <span class="number">99</span>]}
+df = pd.DataFrame(data)
+
+<span class="comment"># Define bin boundaries and labels</span>
+bins = [<span class="number">0</span>, <span class="number">20</span>, <span class="number">40</span>, <span class="number">60</span>, <span class="number">100</span>]
+labels = [<span class="string">'0-20'</span>, <span class="string">'21-40'</span>, <span class="string">'41-60'</span>, <span class="string">'61+'</span>]
+
+df[<span class="string">'Age_Group'</span>] = pd.cut(df[<span class="string">'Age'</span>], bins=bins,
+                          labels=labels, right=<span class="keyword">False</span>)
+<span class="func">print</span>(df)
+<span class="comment"># Age  Age_Group
+#  23    21-40
+#  45    41-60</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>Binning</strong> = grouping continuous numbers into ranges. Like converting a raw glucose of 148 into "high" or a blood pressure of 145/95 into "Stage 2 Hypertension."</li>
+          <li><code>pd.cut()</code> — puts each value into the appropriate bin. Like applying clinical cutoffs.</li>
+          <li><code>bins=[0,20,40,60,100]</code> — defines the boundaries. <code>labels</code> — names for each range.</li>
+          <li><strong>Medical use:</strong> BMI bins → Underweight/Normal/Overweight/Obese. Age bins → Paediatric/Adult/Elderly.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>6.3 Feature Splitting — Extracting Sub-Features</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+data = {<span class="string">'Full_Address'</span>: [
+    <span class="string">'123 Elm St, Springfield, 12345'</span>,
+    <span class="string">'456 Oak Rd, Shelbyville, 67890'</span>]}
+df = pd.DataFrame(data)
+
+<span class="comment"># Split one column into three</span>
+df[[<span class="string">'Street'</span>, <span class="string">'City'</span>, <span class="string">'Zipcode'</span>]] = \
+    df[<span class="string">'Full_Address'</span>].str.extract(
+        r<span class="string">'([0-9]+\s[\w\s]+),\s([\w\s]+),\s(\d+)'</span>)
+<span class="func">print</span>(df)
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li>Sometimes one column contains multiple pieces of useful information. Splitting it gives you finer features.</li>
+          <li><strong>Medical example:</strong> A column "Diagnosis: T2DM with HTN" can be split into two columns: Diagnosis_Primary="T2DM" and Comorbidity="HTN".</li>
+          <li><code>str.extract()</code> uses a pattern (regex) to pull out substrings. The pattern defines what to grab.</li>
+          <li>Another example: split "DOB: 15/06/1980" into Day, Month, Year columns — each becomes a separate feature.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>6.4 Text Preprocessing (for Clinical Notes)</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> nltk
+<span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> stopwords
+<span class="keyword">from</span> nltk.stem <span class="keyword">import</span> PorterStemmer
+<span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer
+
+texts = [<span class="string">"Patient has severe chest pain."</span>,
+         <span class="string">"Chest pain with shortness of breath."</span>]
+
+<span class="var">stemmer</span> = PorterStemmer()
+<span class="var">stop_words</span> = set(stopwords.words(<span class="string">'english'</span>))
+
+<span class="keyword">def</span> <span class="func">preprocess</span>(text):
+    words = text.split()
+    words = [stemmer.stem(w) <span class="keyword">for</span> w <span class="keyword">in</span> words
+             <span class="keyword">if</span> w.lower() <span class="keyword">not</span> <span class="keyword">in</span> stop_words]
+    <span class="keyword">return</span> <span class="string">" "</span>.join(words)
+
+cleaned = [<span class="func">preprocess</span>(t) <span class="keyword">for</span> t <span class="keyword">in</span> texts]
+X = CountVectorizer().fit_transform(cleaned)
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li>When your data is unstructured text (clinical notes, discharge summaries), you need to convert it to numbers before an ML model can use it.</li>
+          <li><strong>Stop words removal:</strong> Remove common words like "the," "is," "with" that don't carry medical meaning. Like ignoring filler words in a patient history.</li>
+          <li><strong>Stemming:</strong> Reduces words to their root. "running" → "run", "painful" → "pain". Like normalising terminology.</li>
+          <li><strong>CountVectorizer:</strong> Converts text into a matrix of word counts. Each unique word becomes a column; each document becomes a row.</li>
+          <li><strong>Clinical application:</strong> Classifying discharge summaries, extracting diagnoses from notes, NLP for radiology reports.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 7: ML Basics -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <h2>§7 · Machine Learning Basics</h2>
+    <span class="page-num">Page 7</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Machine%20Learning%20Basics.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Machine Learning Basics.ipynb</span>
+  </div>
+
+  <div class="subsection">
+    <h3>7.1 Types of Machine Learning</h3>
+    <table>
+      <tr><th>Type</th><th>How it Learns</th><th>Medical Analogy</th><th>Examples</th></tr>
+      <tr><td><strong>Supervised</strong></td><td>Labelled examples (X → y)</td><td>Training a junior doctor with confirmed cases</td><td>KNN, Naive Bayes, SVM, Random Forest, Neural Network</td></tr>
+      <tr><td><strong>Unsupervised</strong></td><td>No labels — finds patterns</td><td>Cluster analysis in epidemiology</td><td>K-Means Clustering, PCA</td></tr>
+      <tr><td><strong>Reinforcement</strong></td><td>Trial &amp; error with rewards</td><td>Drug dosing optimisation via feedback</td><td>Q-Learning, DQN</td></tr>
+    </table>
+
+    <h3>7.2 Classification vs Regression</h3>
+    <div class="grid-3">
+      <div class="mini-card">
+        <strong>Classification</strong>
+        Predicts a category<br/>e.g. Diabetic / Not Diabetic<br/><span class="outcome-badge outcome-1">Diabetic</span> <span class="outcome-badge outcome-0">Normal</span>
+      </div>
+      <div class="mini-card">
+        <strong>Regression</strong>
+        Predicts a number<br/>e.g. HbA1c = 7.4%<br/><span class="chip">Continuous output</span>
+      </div>
+      <div class="mini-card">
+        <strong>Clustering</strong>
+        Groups similar patients<br/>No predefined labels<br/><span class="chip">Unsupervised</span>
+      </div>
+    </div>
+
+    <h3>7.3 Bias-Variance Tradeoff</h3>
+    <div class="callout">
+      <strong>📐 The Fundamental Challenge of ML</strong>
+      <p style="margin-top:6px"><strong>High Bias (Underfitting)</strong> — the model is too simple. Like a doctor who diagnoses every patient with the same disease regardless of symptoms. Low accuracy on both training and test sets.</p>
+      <p style="margin-top:8px"><strong>High Variance (Overfitting)</strong> — the model is too complex. It memorises training data perfectly but fails on new patients. Like a doctor who passes written exams but can't apply knowledge to real cases.</p>
+      <p style="margin-top:8px"><strong>Goal:</strong> Find the sweet spot — a model complex enough to learn patterns but general enough to work on unseen data.</p>
+    </div>
+
+    <h3>7.4 The Universal ML Workflow</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="comment"># 1. Import</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score
+
+<span class="comment"># 2. Load &amp; clean data</span>
+df = pd.read_csv(<span class="string">"diabetes.csv"</span>)
+
+<span class="comment"># 3. Features &amp; target</span>
+X = df.drop(<span class="string">'Outcome'</span>, axis=<span class="number">1</span>)
+y = df[<span class="string">'Outcome'</span>]
+
+<span class="comment"># 4. Train/test split</span>
+X_train, X_test, y_train, y_test = \
+    train_test_split(X, y, test_size=<span class="number">0.2</span>,
+                     random_state=<span class="number">42</span>)
+
+<span class="comment"># 5. Scale features</span>
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+<span class="comment"># 6. Train → Predict → Evaluate</span>
+<span class="comment"># (varies by algorithm — see sections below)</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide — The Universal Recipe</div>
+        <ul>
+          <li>This 6-step pipeline is the same for almost every ML algorithm. Once you understand it, switching from KNN to SVM is just changing one line.</li>
+          <li><strong>X</strong> = your predictors (8 clinical variables). <strong>y</strong> = what you're predicting (diabetic?)</li>
+          <li><strong>train_test_split</strong> — you never evaluate a model on the data it trained on. That's like marking your own exam. Use separate "training" and "test" patients.</li>
+          <li><strong>StandardScaler</strong> — converts all features to the same scale (mean=0, SD=1). Critical because Glucose (range 44-199) and BMI (range 18-67) are on very different scales. Without scaling, models think Glucose is more "important" just because its numbers are bigger.</li>
+          <li><code>fit_transform</code> on training data, <code>transform</code> only on test data — the scaler learns from training, then applies the same transformation to test.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 8: Linear Regression & Gradient Descent -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <h2>§8 · Linear Regression &amp; Gradient Descent</h2>
+    <span class="page-num">Page 8</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Linear%20Regression%20using%20Gradient%20Descent.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Linear Regression using Gradient Descent.ipynb</span>
+  </div>
+
+  <div class="analogy-box">
+    <strong>🩺 Medical Analogy</strong>
+    Linear regression draws the best-fit line through your data — like drawing a line through a scatter plot of HbA1c vs fasting glucose to predict one from the other. You're finding the mathematical relationship between variables.
+  </div>
+
+  <div class="formula-box">
+    <strong>The Linear Equation:</strong>
+    y = w·X + b<br/><br/>
+    y = predicted value (e.g. blood glucose)<br/>
+    X = input variable (e.g. BMI)<br/>
+    w = weight/slope (how much y changes per unit of X)<br/>
+    b = bias/intercept (baseline value when X = 0)
+  </div>
+
+  <div class="subsection">
+    <h3>8.1 Full Gradient Descent Implementation</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+<span class="comment"># Step 2: Create simple dataset</span>
+<span class="comment"># X = input, Y = output we want to predict</span>
+X = np.array([<span class="number">1</span>, <span class="number">2</span>])
+Y = np.array([<span class="number">3</span>, <span class="number">5</span>])
+
+<span class="comment"># Step 3: Initialize parameters</span>
+w = <span class="number">0</span>          <span class="comment"># weight (slope) — starts at 0</span>
+b = <span class="number">0</span>          <span class="comment"># bias (intercept) — starts at 0</span>
+learning_rate = <span class="number">0.1</span>
+n = <span class="func">len</span>(X)     <span class="comment"># number of data points</span>
+iterations = <span class="number">4</span>
+
+<span class="comment"># Step 4: Gradient Descent Loop</span>
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="func">range</span>(iterations):
+    y_pred = w * X + b         <span class="comment"># current predictions</span>
+    error = Y - y_pred         <span class="comment"># how wrong we are</span>
+    mse = np.mean(error ** <span class="number">2</span>) <span class="comment"># Mean Squared Error</span>
+
+    <span class="comment"># Calculate gradients (direction to improve)</span>
+    dw = (<span class="number">-2</span> / n) * np.sum(X * error)
+    db = (<span class="number">-2</span> / n) * np.sum(error)
+
+    <span class="comment"># Update parameters</span>
+    w = w - learning_rate * dw
+    b = b - learning_rate * db
+
+    <span class="func">print</span>(<span class="string">f"Iter {i+1}: w={w:.4f}, b={b:.4f}, MSE={mse:.4f}"</span>)
+
+<span class="comment"># Step 5: Plot the result</span>
+x_line = np.linspace(<span class="number">0</span>, <span class="number">3</span>, <span class="number">100</span>)
+y_line = w * x_line + b
+plt.scatter(X, Y, color=<span class="string">'red'</span>, s=<span class="number">80</span>, label=<span class="string">"Actual Data"</span>)
+plt.plot(x_line, y_line, label=<span class="string">"Regression Line"</span>)
+plt.legend()
+plt.title(<span class="string">"Linear Regression via Gradient Descent"</span>)
+plt.show()
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide — Gradient Descent</div>
+        <ul>
+          <li><strong>What is Gradient Descent?</strong> Imagine you're blindfolded on a hilly landscape and need to find the lowest valley. You feel the slope under your feet and take a step downhill. Gradient descent does this mathematically — it iteratively moves the parameters (w, b) in the direction that reduces error.</li>
+          <li><strong>y_pred</strong> = the model's current guess. <strong>error</strong> = actual minus predicted — how wrong the model is.</li>
+          <li><strong>MSE (Mean Squared Error)</strong> = average of squared errors. Like auditing your diagnostic accuracy. We want this to be as low as possible.</li>
+          <li><strong>dw and db</strong> = gradients — the direction and size of the correction needed for w and b.</li>
+          <li><strong>Learning rate (0.1)</strong> = how big each step is. Too large = overshoot (like adjusting a drug dose by 10x at a time). Too small = takes forever to converge.</li>
+          <li>After 4 iterations, MSE drops significantly — the line is fitting the data better each round.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>8.2 What Happens Each Iteration</h3>
+    <table>
+      <tr><th>Iteration</th><th>w (slope)</th><th>b (intercept)</th><th>MSE</th><th>Interpretation</th></tr>
+      <tr><td>Start</td><td>0</td><td>0</td><td>17.0</td><td>Flat line at y=0 — terrible fit</td></tr>
+      <tr><td>1</td><td>1.4</td><td>0.8</td><td>~1.3</td><td>Line improving rapidly</td></tr>
+      <tr><td>2</td><td>1.76</td><td>0.96</td><td>~0.1</td><td>Getting close</td></tr>
+      <tr><td>3</td><td>1.93</td><td>0.99</td><td>~0.01</td><td>Nearly perfect fit</td></tr>
+      <tr><td>4</td><td>~2.0</td><td>~1.0</td><td>≈ 0</td><td>y = 2x + 1 — exact solution</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION 9: KNN -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <h2>§9 · K-Nearest Neighbors (KNN)</h2>
+    <span class="page-num">Page 9</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/KNN.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: KNN.ipynb — Dataset: Pima Indians Diabetes (769 rows × 9 cols)</span>
+  </div>
+
+  <div class="analogy-box">
+    <strong>🩺 Medical Analogy</strong>
+    KNN = "find the most similar patients in my case files and base the diagnosis on theirs." If you have a new patient with glucose=148, BMI=33, age=50 — KNN finds the K most similar patients in your database and predicts the outcome by majority vote. Like a consultant looking up similar historical cases.
+  </div>
+
+  <div class="subsection">
+    <h3>9.1 Full KNN Pipeline (Same 7 Steps)</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="comment"># Step 1: Import</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler
+<span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, confusion_matrix
+
+<span class="comment"># Steps 2-3: Load</span>
+df = pd.read_csv(<span class="string">"diabetes.csv"</span>)
+
+<span class="comment"># Step 6: Clean — replace impossible zeros</span>
+columns = [<span class="string">'Glucose'</span>, <span class="string">'BloodPressure'</span>,
+           <span class="string">'SkinThickness'</span>, <span class="string">'Insulin'</span>, <span class="string">'BMI'</span>]
+df[columns] = df[columns].replace(<span class="number">0</span>, np.nan)
+<span class="keyword">for</span> col <span class="keyword">in</span> columns:
+    df[col] = df[col].fillna(df[col].median())
+
+<span class="comment"># Features &amp; target</span>
+X = df.drop(<span class="string">'Outcome'</span>, axis=<span class="number">1</span>)
+y = df[<span class="string">'Outcome'</span>]
+
+<span class="comment"># Train/test split</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+
+<span class="comment"># Scale (critical for KNN!)</span>
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+<span class="comment"># Train KNN (K=5: look at 5 nearest neighbours)</span>
+knn = KNeighborsClassifier(n_neighbors=<span class="number">5</span>)
+knn.fit(X_train, y_train)
+
+<span class="comment"># Predict &amp; evaluate</span>
+y_pred = knn.predict(X_test)
+<span class="func">print</span>(<span class="string">"Accuracy:"</span>, accuracy_score(y_test, y_pred))
+<span class="func">print</span>(confusion_matrix(y_test, y_pred))
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>KNeighborsClassifier(n_neighbors=5)</strong> — tells the model to look at the 5 most similar training patients when classifying a new one. The majority class among those 5 wins.</li>
+          <li><strong>Why scaling is critical for KNN:</strong> KNN measures "distance" between patients. If Glucose ranges 44-199 and Pregnancies range 0-17, without scaling the model thinks glucose differences matter much more than pregnancy differences — just because the numbers are bigger. After StandardScaler, all features contribute equally.</li>
+          <li><strong>Confusion Matrix:</strong> A 2×2 table showing: True Positives (correctly identified diabetics), True Negatives (correctly identified non-diabetics), False Positives (wrongly labelled as diabetic), False Negatives (missed diabetics — clinically the most dangerous type of error).</li>
+          <li><strong>Choosing K:</strong> Small K = sensitive to noise (overfitting). Large K = too generalised (underfitting). Typically try odd numbers (3, 5, 7) to avoid ties.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 10: Naive Bayes -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <h2>§10 · Naïve Bayes</h2>
+    <span class="page-num">Page 10</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Navie%20Bayes.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Navie Bayes.ipynb — Dataset: Pima Indians Diabetes</span>
+  </div>
+
+  <div class="analogy-box">
+    <strong>🩺 Medical Analogy — Bayes' Theorem in Medicine</strong>
+    You already use Bayesian reasoning! When you order a troponin test, you update your probability of MI based on prior probability (the patient's risk factors) multiplied by the test's likelihood ratio. Naïve Bayes does exactly this mathematically — it uses prior probabilities and feature likelihoods to classify new cases.
+  </div>
+
+  <div class="formula-box">
+    <strong>Bayes' Theorem:</strong>
+    P(Diabetic | Glucose=148) = P(Glucose=148 | Diabetic) × P(Diabetic) / P(Glucose=148)<br/><br/>
+    = Likelihood × Prior / Evidence
+  </div>
+
+  <div class="subsection">
+    <h3>10.1 Naïve Bayes Implementation</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="comment"># Same 7-step pipeline as KNN</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> GaussianNB
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, confusion_matrix
+
+df = pd.read_csv(<span class="string">"diabetes.csv"</span>)
+
+<span class="comment"># Data Cleaning (same as always)</span>
+columns = [<span class="string">'Glucose'</span>, <span class="string">'BloodPressure'</span>,
+           <span class="string">'SkinThickness'</span>, <span class="string">'Insulin'</span>, <span class="string">'BMI'</span>]
+df[columns] = df[columns].replace(<span class="number">0</span>, np.nan)
+<span class="keyword">for</span> col <span class="keyword">in</span> columns:
+    df[col] = df[col].fillna(df[col].median())
+
+X = df.drop(<span class="string">'Outcome'</span>, axis=<span class="number">1</span>)
+y = df[<span class="string">'Outcome'</span>]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+
+<span class="comment"># Train Naive Bayes — assumes Gaussian distribution</span>
+nb = GaussianNB()
+nb.fit(X_train, y_train)
+
+y_pred = nb.predict(X_test)
+<span class="func">print</span>(<span class="string">"Accuracy:"</span>, accuracy_score(y_test, y_pred))
+<span class="func">print</span>(confusion_matrix(y_test, y_pred))
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>GaussianNB</strong> — "Gaussian" means it assumes each feature follows a normal (bell-curve) distribution within each class. This is often a reasonable assumption for clinical measurements like glucose or BMI.</li>
+          <li><strong>"Naïve" assumption:</strong> The model assumes all features are independent of each other — which isn't strictly true (BMI and glucose are correlated) but works surprisingly well in practice, like many heuristics in medicine.</li>
+          <li><strong>No scaling needed:</strong> Unlike KNN, Naïve Bayes doesn't use distance. It calculates probabilities, so the scale of values doesn't matter.</li>
+          <li><strong>Very fast and efficient:</strong> Works well with small datasets, handles missing data, and gives probabilistic output (e.g. "73% probability of diabetes") rather than just a binary answer.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 11: SVM -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <h2>§11 · Support Vector Machine (SVM)</h2>
+    <span class="page-num">Page 11</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Support%20Vector%20Machine.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Support Vector Machine.ipynb — Dataset: Pima Indians Diabetes</span>
+  </div>
+
+  <div class="analogy-box">
+    <strong>🩺 Medical Analogy</strong>
+    SVM finds the widest possible "no man's land" between diabetics and non-diabetics in your feature space. Imagine plotting patients on a map where X=glucose and Y=BMI — SVM draws a boundary line with the maximum margin separating the two groups. The patients closest to this line (the "support vectors") are the hardest to classify.
+  </div>
+
+  <div class="subsection">
+    <h3>11.1 SVM Implementation</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler
+<span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC
+<span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics
+
+df = pd.read_csv(<span class="string">"diabetes.csv"</span>)
+
+<span class="comment"># Clean + split (same pipeline)</span>
+columns = [<span class="string">'Glucose'</span>,<span class="string">'BloodPressure'</span>,<span class="string">'SkinThickness'</span>,
+           <span class="string">'Insulin'</span>,<span class="string">'BMI'</span>]
+df[columns] = df[columns].replace(<span class="number">0</span>, np.nan)
+<span class="keyword">for</span> col <span class="keyword">in</span> columns:
+    df[col] = df[col].fillna(df[col].median())
+
+X = df.drop(<span class="string">'Outcome'</span>, axis=<span class="number">1</span>)
+y = df[<span class="string">'Outcome'</span>]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+<span class="comment"># Train SVM with RBF kernel</span>
+svm = SVC(kernel=<span class="string">'rbf'</span>, random_state=<span class="number">42</span>)
+svm.fit(X_train, y_train)
+
+y_pred = svm.predict(X_test)
+<span class="func">print</span>(<span class="string">"Accuracy:"</span>, metrics.accuracy_score(y_test, y_pred))
+<span class="func">print</span>(metrics.confusion_matrix(y_test, y_pred))
+<span class="func">print</span>(metrics.classification_report(y_test, y_pred))
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>SVC</strong> = Support Vector Classifier. Finds the optimal decision boundary with maximum margin.</li>
+          <li><strong>kernel='rbf'</strong> — Radial Basis Function kernel. This allows SVM to draw curved (non-linear) boundaries, not just straight lines. Think of it as bending the classification boundary to fit complex data patterns — like how a ROC curve is not always a straight line.</li>
+          <li><strong>Support vectors</strong> = the data points closest to the decision boundary — the ambiguous, borderline cases. Clinically, these are the patients who are hardest to classify.</li>
+          <li><strong>classification_report</strong> gives precision, recall, and F1-score:
+            <ul>
+              <li><em>Precision</em> = of all patients I labelled diabetic, how many truly were? (PPV)</li>
+              <li><em>Recall</em> = of all truly diabetic patients, how many did I catch? (Sensitivity)</li>
+              <li><em>F1-score</em> = harmonic mean of precision and recall</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 12: Decision Tree -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <h2>§12 · Decision Tree</h2>
+    <span class="page-num">Page 12</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Decision%20Tree.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Decision Tree.ipynb — Dataset: Iris (150 samples, 3 classes)</span>
+  </div>
+
+  <div class="analogy-box">
+    <strong>🩺 Medical Analogy</strong>
+    A decision tree IS a clinical decision algorithm. "Is glucose &gt; 126? → YES → Is BMI &gt; 30? → YES → High risk of diabetes." Every clinical guideline flowchart is essentially a decision tree. The difference: ML builds these trees automatically from data, finding the optimal split points.
+  </div>
+
+  <div class="subsection">
+    <h3>12.1 Decision Tree on Iris Dataset</h3>
+    <div class="callout blue">
+      <strong>The Iris Dataset</strong> — 150 flowers, 3 species (setosa, versicolor, virginica), 4 features (sepal length/width, petal length/width). A classic multi-class classification problem — like classifying 3 types of arrhythmia from 4 ECG parameters.
+    </div>
+
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier, plot_tree
+<span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+<span class="comment"># Load the Iris dataset</span>
+iris = load_iris()
+X = iris.data      <span class="comment"># 4 flower measurements</span>
+y = iris.target    <span class="comment"># 0, 1, or 2 (species)</span>
+
+<span class="comment"># Train/test split</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+
+<span class="comment"># Build Decision Tree with Gini criterion</span>
+model = DecisionTreeClassifier(
+    criterion=<span class="string">'gini'</span>,
+    random_state=<span class="number">42</span>)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+<span class="func">print</span>(<span class="string">"Accuracy:"</span>, accuracy_score(y_test, y_pred))
+<span class="comment"># Accuracy: 1.0 (perfect on this dataset)</span>
+
+<span class="comment"># Visualise the tree</span>
+plt.figure(figsize=(<span class="number">12</span>, <span class="number">8</span>))
+plot_tree(model,
+          feature_names=iris.feature_names,
+          class_names=iris.target_names,
+          filled=<span class="keyword">True</span>)
+plt.show()
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>criterion='gini'</strong> — the Gini Impurity measures how "mixed" a node is. At each branch, the tree picks the feature and cutoff that creates the purest possible sub-groups (all diabetics on one side, all non-diabetics on the other). Like finding the single blood test that best separates two diagnoses.</li>
+          <li><strong>Accuracy = 1.0</strong> — the tree perfectly classifies all 30 test flowers. This is unusual; on real clinical data you'd expect lower accuracy, and perfect accuracy may signal overfitting.</li>
+          <li><strong>plot_tree with filled=True</strong> — draws the full decision tree visually. Each node shows: the split condition, Gini score, sample count, and class distribution. A clinician can read and interpret this directly — unlike neural networks, decision trees are fully transparent.</li>
+          <li><strong>Medical advantage:</strong> A doctor can validate each branch clinically. "Does it make sense that glucose &gt; 127 should be the first split?" Yes — that's exactly what clinical guidelines say.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 13: Random Forest -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <h2>§13 · Random Forest</h2>
+    <span class="page-num">Page 13</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Random_Forest.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Random_Forest.ipynb — 3 Datasets: Titanic, California Housing, Heart Disease</span>
+  </div>
+
+  <div class="analogy-box">
+    <strong>🩺 Medical Analogy — The MDT Meeting</strong>
+    A single decision tree is one doctor's opinion. A Random Forest is a multidisciplinary team (MDT) — 100 doctors each independently review the case, then you take a majority vote. Individual doctors may make errors, but the collective is much more reliable. This "wisdom of the crowd" principle is why Random Forest is consistently one of the best-performing algorithms.
+  </div>
+
+  <div class="subsection">
+    <h3>13.1 Section 1 — Classification (Titanic Survival)</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+<span class="comment"># Load Titanic dataset</span>
+df = pd.read_csv(<span class="string">"titanic.csv"</span>)
+<span class="comment"># Preprocessing (drop nulls, encode Sex column)</span>
+df = df.dropna()
+
+X = df[[<span class="string">'Pclass'</span>, <span class="string">'Sex'</span>, <span class="string">'Age'</span>, <span class="string">'Fare'</span>]]
+X[<span class="string">'Sex'</span>] = X[<span class="string">'Sex'</span>].map({<span class="string">'male'</span>:<span class="number">0</span>, <span class="string">'female'</span>:<span class="number">1</span>})
+y = df[<span class="string">'Survived'</span>]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+
+<span class="comment"># 100 trees in the forest</span>
+rf_classifier = RandomForestClassifier(
+    n_estimators=<span class="number">100</span>, random_state=<span class="number">42</span>)
+rf_classifier.fit(X_train, y_train)
+
+y_pred = rf_classifier.predict(X_test)
+<span class="func">print</span>(<span class="string">"Accuracy:"</span>, accuracy_score(y_test, y_pred))
+<span class="comment"># Accuracy: 0.80</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><code>n_estimators=100</code> — build 100 decision trees. Each tree is trained on a random subset of the data (bootstrap sampling) and a random subset of features at each split.</li>
+          <li><strong>Sex mapping</strong> — converts "male"→0, "female"→1. ML models need numbers, not text. Like coding variables for statistical analysis.</li>
+          <li><strong>Accuracy 0.80</strong> — 80% of test passengers correctly predicted as survived/died. Better than any single decision tree would achieve alone.</li>
+          <li><strong>Feature importance</strong> — a major advantage of Random Forest: <code>rf_classifier.feature_importances_</code> tells you which variables contributed most to predictions. Clinically invaluable — like knowing which lab test is most diagnostic.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>13.2 Section 2 — Regression (California Housing Prices)</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestRegressor
+<span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> fetch_california_housing
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_squared_error, r2_score
+
+housing = fetch_california_housing()
+X, y = housing.data, housing.target
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+
+rf_regressor = RandomForestRegressor(
+    n_estimators=<span class="number">100</span>, random_state=<span class="number">42</span>)
+rf_regressor.fit(X_train, y_train)
+
+y_pred = rf_regressor.predict(X_test)
+<span class="func">print</span>(<span class="string">"MSE:"</span>, mean_squared_error(y_test, y_pred))
+<span class="func">print</span>(<span class="string">"R²:"</span>, r2_score(y_test, y_pred))
+<span class="comment"># MSE: 0.26  |  R²: 0.81</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>RandomForestRegressor</strong> — same idea but predicts continuous numbers (like HbA1c or blood pressure) instead of categories.</li>
+          <li><strong>MSE = 0.26</strong> — Mean Squared Error. Average squared difference between predicted and actual house prices. Lower is better.</li>
+          <li><strong>R² = 0.81</strong> — R-squared, the coefficient of determination. 0.81 means the model explains 81% of the variance in house prices. In medical research, R²=0.81 would be an excellent fit. (Range: 0 to 1; 1 = perfect.)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>13.3 Section 3 — Hyperparameter Tuning (Heart Disease)</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score
+
+df = pd.read_csv(<span class="string">"heart.csv"</span>)
+X = df.drop(<span class="string">'target'</span>, axis=<span class="number">1</span>)
+y = df[<span class="string">'target'</span>]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+
+<span class="comment"># Tuned hyperparameters</span>
+model = RandomForestClassifier(
+    n_estimators=<span class="number">100</span>,
+    max_features=<span class="string">"sqrt"</span>, <span class="comment"># features per split</span>
+    max_depth=<span class="number">6</span>,         <span class="comment"># limit tree depth</span>
+    max_leaf_nodes=<span class="number">6</span>)    <span class="comment"># limit leaves</span>
+model.fit(X_train, y_train)
+
+<span class="func">print</span>(<span class="string">"Accuracy:"</span>, accuracy_score(y_test, model.predict(X_test)))
+<span class="comment"># Accuracy: 0.82</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide — Hyperparameter Tuning</div>
+        <ul>
+          <li><strong>Hyperparameters</strong> = settings you choose before training. Like choosing a drug dose before starting therapy. These control the model's complexity.</li>
+          <li><code>max_features="sqrt"</code> — each tree only looks at √(total features) at each split. This introduces randomness and prevents all trees from being identical.</li>
+          <li><code>max_depth=6</code> — limits tree depth to 6 levels. Prevents overfitting. Like limiting a decision algorithm to 6 questions deep.</li>
+          <li><code>max_leaf_nodes=6</code> — maximum 6 final categories. Keeps the tree simple and interpretable.</li>
+          <li>Tuning these gives 82% accuracy — better than the default settings — showing that model optimisation matters.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 14: XGBoost -->
+<div class="section" id="s14">
+  <div class="section-header">
+    <h2>§14 · XGBoost</h2>
+    <span class="page-num">Page 14</span>
+  </div>
+
+  <div class="callout blue">
+    <strong>🩺 XGBoost = Extreme Gradient Boosting</strong>
+    Where Random Forest builds 100 trees in parallel (independently), XGBoost builds trees sequentially — each new tree learns from the mistakes of the previous one. It's like a training programme where each session focuses specifically on the cases you got wrong last time.
+  </div>
+
+  <div class="subsection">
+    <h3>14.1 XGBoost vs Random Forest</h3>
+    <table>
+      <tr><th>Feature</th><th>Random Forest</th><th>XGBoost</th></tr>
+      <tr><td>Tree building</td><td>Parallel (independent)</td><td>Sequential (each corrects the last)</td></tr>
+      <tr><td>Method</td><td>Bagging</td><td>Boosting (Gradient Boosting)</td></tr>
+      <tr><td>Speed</td><td>Fast</td><td>Slower but highly optimised</td></tr>
+      <tr><td>Accuracy</td><td>Very good</td><td>Often slightly better</td></tr>
+      <tr><td>Overfitting risk</td><td>Lower</td><td>Higher (needs tuning)</td></tr>
+      <tr><td>Kaggle competitions</td><td>Popular</td><td>Dominant winner</td></tr>
+    </table>
+
+    <h3>14.2 XGBoost Code</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">from</span> xgboost <span class="keyword">import</span> XGBClassifier
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+df = pd.read_csv(<span class="string">"diabetes.csv"</span>)
+
+<span class="comment"># Clean zeros</span>
+cols = [<span class="string">'Glucose'</span>,<span class="string">'BloodPressure'</span>,<span class="string">'SkinThickness'</span>,
+        <span class="string">'Insulin'</span>,<span class="string">'BMI'</span>]
+df[cols] = df[cols].replace(<span class="number">0</span>, np.nan)
+<span class="keyword">for</span> c <span class="keyword">in</span> cols: df[c] = df[c].fillna(df[c].median())
+
+X = df.drop(<span class="string">'Outcome'</span>, axis=<span class="number">1</span>)
+y = df[<span class="string">'Outcome'</span>]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+
+<span class="comment"># XGBoost Classifier</span>
+xgb = XGBClassifier(
+    n_estimators=<span class="number">100</span>,
+    learning_rate=<span class="number">0.1</span>,
+    max_depth=<span class="number">5</span>,
+    random_state=<span class="number">42</span>,
+    eval_metric=<span class="string">'logloss'</span>)
+
+xgb.fit(X_train, y_train)
+y_pred = xgb.predict(X_test)
+<span class="func">print</span>(<span class="string">"Accuracy:"</span>, accuracy_score(y_test, y_pred))
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>How boosting works:</strong> Tree 1 makes predictions. Tree 2 focuses on the patients Tree 1 got wrong. Tree 3 focuses on what Trees 1+2 got wrong. Each tree fills the gaps of the previous — like escalating to a specialist when the generalist can't solve the case.</li>
+          <li><code>learning_rate=0.1</code> — how much each new tree contributes. Low = cautious, less overfitting. High = aggressive, faster but risky. Like titrating a medication.</li>
+          <li><code>max_depth=5</code> — each individual tree is kept shallow to prevent overfitting.</li>
+          <li><code>eval_metric='logloss'</code> — uses log loss to measure performance during training. Good for probability-based classification.</li>
+          <li>XGBoost typically achieves 77-80%+ accuracy on the diabetes dataset, often slightly outperforming simpler algorithms.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 15: Neural Networks -->
+<div class="section" id="s15">
+  <div class="section-header">
+    <h2>§15 · Neural Networks &amp; Deep Learning</h2>
+    <span class="page-num">Page 15</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/Neural%20Network.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: Neural Network.ipynb</span>
+  </div>
+
+  <div class="analogy-box">
+    <strong>🩺 Medical Analogy</strong>
+    A neural network is loosely inspired by the brain. Just as neurons fire and pass signals to other neurons, artificial nodes receive numbers, apply a mathematical function, and pass results forward. Multiple layers of these nodes can learn incredibly complex patterns — like recognising cancer in histology slides, detecting arrhythmias in ECGs, or identifying retinopathy in fundus images.
+  </div>
+
+  <div class="subsection">
+    <h3>15.1 Neural Network Architecture</h3>
+    <table>
+      <tr><th>Layer Type</th><th>What it does</th><th>Medical Analogy</th></tr>
+      <tr><td>Input Layer</td><td>Receives raw features (8 clinical variables)</td><td>Patient's chart arrives at triage</td></tr>
+      <tr><td>Hidden Layer(s)</td><td>Learns complex patterns and combinations</td><td>Multiple specialists review the case</td></tr>
+      <tr><td>Output Layer</td><td>Produces final prediction (0/1 probability)</td><td>MDT verdict: diabetic or not</td></tr>
+      <tr><td>ReLU activation</td><td>Hidden layer: outputs max(0, x) — adds non-linearity</td><td>Like a threshold: only fire if signal is strong enough</td></tr>
+      <tr><td>Sigmoid activation</td><td>Output layer: squashes to 0–1 probability</td><td>Converts to probability of diagnosis</td></tr>
+    </table>
+
+    <h3>15.2 Section 1 — Simple Pass/Fail Prediction</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">from</span> tensorflow.keras.models <span class="keyword">import</span> Sequential
+<span class="keyword">from</span> tensorflow.keras.layers <span class="keyword">import</span> Dense
+
+<span class="comment"># Mini dataset: 10 students</span>
+<span class="comment"># Features: StudyHours, Attendance, Assignment</span>
+<span class="comment"># Target: Pass(1) or Fail(0)</span>
+data = {
+    <span class="string">'StudyHours'</span>: [<span class="number">5</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">7</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">0</span>],
+    <span class="string">'Attendance'</span>: [<span class="number">80</span>,<span class="number">60</span>,<span class="number">90</span>,<span class="number">40</span>,<span class="number">75</span>,<span class="number">50</span>,<span class="number">85</span>,<span class="number">65</span>,<span class="number">95</span>,<span class="number">30</span>],
+    <span class="string">'Assignment'</span>: [<span class="number">70</span>,<span class="number">55</span>,<span class="number">85</span>,<span class="number">45</span>,<span class="number">75</span>,<span class="number">50</span>,<span class="number">80</span>,<span class="number">60</span>,<span class="number">90</span>,<span class="number">35</span>],
+    <span class="string">'Pass'</span>: [<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>]}
+df = pd.DataFrame(data)
+
+X = df[[<span class="string">'StudyHours'</span>,<span class="string">'Attendance'</span>,<span class="string">'Assignment'</span>]].values
+y = df[<span class="string">'Pass'</span>].values
+
+<span class="comment"># Build the neural network</span>
+model = Sequential()
+model.add(Dense(<span class="number">8</span>, activation=<span class="string">'relu'</span>, input_shape=(<span class="number">3</span>,)))
+model.add(Dense(<span class="number">4</span>, activation=<span class="string">'relu'</span>))
+model.add(Dense(<span class="number">1</span>, activation=<span class="string">'sigmoid'</span>))
+
+model.compile(optimizer=<span class="string">'adam'</span>,
+              loss=<span class="string">'binary_crossentropy'</span>,
+              metrics=[<span class="string">'accuracy'</span>])
+
+history = model.fit(X_train, y_train,
+                    epochs=<span class="number">100</span>,
+                    batch_size=<span class="number">2</span>,
+                    validation_split=<span class="number">0.20</span>)
+<span class="comment"># Accuracy: 1.0</span>
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>Sequential()</strong> — builds the network layer by layer, left to right, like a flowchart.</li>
+          <li><strong>Dense(8, activation='relu')</strong> — a "Dense" layer means all nodes are fully connected to the previous layer. 8 = number of nodes. ReLU = Rectified Linear Unit: outputs the number if positive, zero if negative. Lets the network model non-linear relationships.</li>
+          <li><strong>Dense(4, activation='relu')</strong> — second hidden layer with 4 nodes. Like a second specialist review that refines the first layer's output.</li>
+          <li><strong>Dense(1, activation='sigmoid')</strong> — output layer. Sigmoid gives a number between 0 and 1 = probability of passing. Threshold at 0.5: above = Pass, below = Fail.</li>
+          <li><strong>optimizer='adam'</strong> — Adam is an advanced gradient descent method. Automatically adjusts the learning rate during training. Very robust in practice.</li>
+          <li><strong>loss='binary_crossentropy'</strong> — the loss function for binary classification (two classes). The model minimises this during training.</li>
+          <li><strong>epochs=100</strong> — the model sees the training data 100 times. Like revising a textbook 100 times.</li>
+          <li><strong>validation_split=0.20</strong> — uses 20% of training data to monitor performance during training.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>15.3 Section 2 — Deep Neural Network for Diabetes</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler
+<span class="keyword">from</span> tensorflow.keras.models <span class="keyword">import</span> Sequential
+<span class="keyword">from</span> tensorflow.keras.layers <span class="keyword">import</span> Dense
+
+df = pd.read_csv(<span class="string">'diabetes.csv'</span>)
+
+<span class="comment"># Clean &amp; prepare</span>
+cols = [<span class="string">'Glucose'</span>,<span class="string">'BloodPressure'</span>,<span class="string">'SkinThickness'</span>,
+        <span class="string">'Insulin'</span>,<span class="string">'BMI'</span>]
+df[cols] = df[cols].replace(<span class="number">0</span>, np.nan)
+<span class="keyword">for</span> c <span class="keyword">in</span> cols: df[c] = df[c].fillna(df[c].median())
+
+X = df.drop(<span class="string">'Outcome'</span>, axis=<span class="number">1</span>).values
+y = df[<span class="string">'Outcome'</span>].values
+
+X_train,X_test,y_train,y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+<span class="comment"># Deeper network (DNN)</span>
+dnn = Sequential([
+    Dense(<span class="number">16</span>, activation=<span class="string">'relu'</span>, input_shape=(<span class="number">8</span>,)),
+    Dense(<span class="number">8</span>, activation=<span class="string">'relu'</span>),
+    Dense(<span class="number">4</span>, activation=<span class="string">'relu'</span>),
+    Dense(<span class="number">1</span>, activation=<span class="string">'sigmoid'</span>)
+])
+dnn.compile(optimizer=<span class="string">'adam'</span>,
+            loss=<span class="string">'binary_crossentropy'</span>,
+            metrics=[<span class="string">'accuracy'</span>])
+dnn.fit(X_train, y_train, epochs=<span class="number">100</span>,
+        batch_size=<span class="number">16</span>, validation_split=<span class="number">0.2</span>,
+        verbose=<span class="number">0</span>)
+
+loss, acc = dnn.evaluate(X_test, y_test)
+<span class="func">print</span>(<span class="string">f"Test Accuracy: {acc:.2f}"</span>)
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>DNN = Deep Neural Network</strong> — "deep" just means multiple hidden layers (here: 16→8→4→1). The more layers, the more complex patterns the network can learn. But: more layers = more risk of overfitting, more data needed.</li>
+          <li><strong>input_shape=(8,)</strong> — 8 features (our 8 clinical variables).</li>
+          <li><strong>Layer progression 16→8→4→1</strong>: each layer learns increasingly abstract representations. Like a radiologist going from raw pixel → edges → shapes → "this looks like a tumour."</li>
+          <li><strong>batch_size=16</strong> — the model updates its weights after seeing 16 patients at a time (not waiting for all 615). Makes training faster and more stable.</li>
+          <li>A well-tuned DNN on the diabetes dataset can achieve 75-80% accuracy — comparable to or slightly better than traditional ML algorithms on this dataset. For complex data like imaging, DNNs vastly outperform traditional methods.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 16: PCA -->
+<div class="section" id="s16">
+  <div class="section-header">
+    <h2>§16 · PCA — Principal Component Analysis</h2>
+    <span class="page-num">Page 16</span>
+  </div>
+
+  <div class="badge-row">
+    <a class="colab-badge" href="https://colab.research.google.com/github/greymatter1005/AI-in-healthcare/blob/main/PCA.ipynb" target="_blank">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/>
+    </a>
+    <span>Notebook: PCA.ipynb — Dataset: Height, Weight, Age, Gender (10 samples)</span>
+  </div>
+
+  <div class="analogy-box">
+    <strong>🩺 Medical Analogy — Dimensionality Reduction</strong>
+    Imagine you have 500 gene expression values for each patient. Most are correlated with each other and contain redundant information. PCA finds the 2–3 "super-variables" (principal components) that capture the most important variation. Like condensing a 500-item lab panel into the 2–3 most informative summary scores — dramatically simplifying analysis without losing the key information.
+  </div>
+
+  <div class="subsection">
+    <h3>16.1 Full PCA Pipeline</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns
+<span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler, LabelEncoder
+<span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> PCA
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix, accuracy_score
+
+<span class="comment"># Mini dataset: Height, Weight, Age → predict Gender</span>
+data = {
+    <span class="string">'Height'</span>:[<span class="number">170</span>,<span class="number">160</span>,<span class="number">180</span>,<span class="number">155</span>,<span class="number">175</span>,
+              <span class="number">165</span>,<span class="number">185</span>,<span class="number">150</span>,<span class="number">172</span>,<span class="number">158</span>],
+    <span class="string">'Weight'</span>:[<span class="number">70</span>,<span class="number">55</span>,<span class="number">85</span>,<span class="number">48</span>,<span class="number">78</span>,
+              <span class="number">60</span>,<span class="number">90</span>,<span class="number">45</span>,<span class="number">72</span>,<span class="number">52</span>],
+    <span class="string">'Age'</span>:   [<span class="number">25</span>,<span class="number">30</span>,<span class="number">35</span>,<span class="number">28</span>,<span class="number">40</span>,
+              <span class="number">22</span>,<span class="number">45</span>,<span class="number">27</span>,<span class="number">33</span>,<span class="number">29</span>],
+    <span class="string">'Gender'</span>:[<span class="string">'M'</span>,<span class="string">'F'</span>,<span class="string">'M'</span>,<span class="string">'F'</span>,<span class="string">'M'</span>,
+              <span class="string">'F'</span>,<span class="string">'M'</span>,<span class="string">'F'</span>,<span class="string">'M'</span>,<span class="string">'F'</span>]}
+df = pd.DataFrame(data)
+
+<span class="comment"># Encode Gender: M=1, F=0</span>
+le = LabelEncoder()
+df[<span class="string">'Gender'</span>] = le.fit_transform(df[<span class="string">'Gender'</span>])
+
+X = df.drop(<span class="string">'Gender'</span>, axis=<span class="number">1</span>)
+y = df[<span class="string">'Gender'</span>]
+
+<span class="comment"># Step 1: Scale first (PCA is sensitive to scale)</span>
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+<span class="comment"># Step 2: Apply PCA — reduce from 3 to 2 dimensions</span>
+pca = PCA(n_components=<span class="number">2</span>)
+X_pca = pca.fit_transform(X_scaled)
+
+<span class="func">print</span>(<span class="string">"Variance explained:"</span>,
+      pca.explained_variance_ratio_)
+<span class="comment"># [0.72, 0.21] → PC1=72%, PC2=21%, Total=93%</span>
+
+<span class="comment"># Step 3: Plot before and after PCA</span>
+plt.scatter(X_pca[:,<span class="number">0</span>], X_pca[:,<span class="number">1</span>],
+            c=y, cmap=<span class="string">'bwr'</span>)
+plt.title(<span class="string">"Data after PCA (2 components)"</span>)
+plt.xlabel(<span class="string">"PC1"</span>); plt.ylabel(<span class="string">"PC2"</span>)
+plt.show()
+
+<span class="comment"># Step 4: Train classifier on PCA-reduced data</span>
+X_train,X_test,y_train,y_test = train_test_split(
+    X_pca, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)
+model = LogisticRegression()
+model.fit(X_train, y_train)
+<span class="func">print</span>(<span class="string">"Accuracy:"</span>, accuracy_score(y_test, model.predict(X_test)))
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li><strong>What does PCA actually do?</strong> It rotates the coordinate system to find the directions of maximum variation in your data. PC1 is the axis with the most spread, PC2 the second most, etc. You then keep only the top 2–3 components.</li>
+          <li><strong>Why scale before PCA?</strong> PCA is based on variance. A variable with a large range (Height: 150-185) would dominate over one with a small range (Age: 22-45) without scaling.</li>
+          <li><code>pca.explained_variance_ratio_</code> — tells you what % of information each component captures. [0.72, 0.21] means PC1 captures 72% of the variance, PC2 captures 21%. Together, 93% of all the information in 3 features is preserved in just 2 numbers.</li>
+          <li><strong>When to use PCA:</strong> When you have many correlated features (e.g., 500 genes, 50 lab values), to visualise high-dimensional data in 2D, or to reduce computation time.</li>
+          <li><strong>Limitation:</strong> The principal components are mathematical constructs — unlike the original features (glucose, BMI), they don't have a direct clinical interpretation. This is the trade-off for dimensionality reduction.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>16.2 PCA vs Without PCA — Visualisation</h3>
+    <div class="code-pair">
+      <div class="code-block">
+<span class="comment"># Scatter of original data (3D condensed to 2 cols)</span>
+fig, (ax1, ax2) = plt.subplots(<span class="number">1</span>, <span class="number">2</span>, figsize=(<span class="number">12</span>,<span class="number">5</span>))
+
+<span class="comment"># Before PCA</span>
+ax1.scatter(X_scaled[:,<span class="number">0</span>], X_scaled[:,<span class="number">1</span>],
+            c=y, cmap=<span class="string">'bwr'</span>)
+ax1.set_title(<span class="string">"Original Features (Height vs Weight)"</span>)
+ax1.set_xlabel(<span class="string">"Height (scaled)"</span>)
+ax1.set_ylabel(<span class="string">"Weight (scaled)"</span>)
+
+<span class="comment"># After PCA</span>
+ax2.scatter(X_pca[:,<span class="number">0</span>], X_pca[:,<span class="number">1</span>],
+            c=y, cmap=<span class="string">'bwr'</span>)
+ax2.set_title(<span class="string">"After PCA (PC1 vs PC2)"</span>)
+ax2.set_xlabel(<span class="string">"Principal Component 1"</span>)
+ax2.set_ylabel(<span class="string">"Principal Component 2"</span>)
+plt.tight_layout()
+plt.show()
+      </div>
+      <div class="code-explain">
+        <div class="explain-title">🩺 Doctor's Guide</div>
+        <ul>
+          <li>This side-by-side plot shows the power of PCA: after transformation, the male (red) and female (blue) groups are often more clearly separated — making it easier for the classifier to draw a decision boundary.</li>
+          <li><code>c=y, cmap='bwr'</code> — colour-codes points by class (blue=0, red=1). The visual separation of colours tells you how discriminative the features are.</li>
+          <li>PCA is widely used in genomics (e.g., to show population stratification), imaging (face recognition), and multi-omics data analysis in precision medicine.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK REFERENCE -->
+<div class="section">
+  <div class="section-header">
+    <h2>📊 Quick Reference: Algorithm Comparison</h2>
+    <span class="page-num">Index</span>
+  </div>
+  <table>
+    <tr><th>Algorithm</th><th>Type</th><th>Dataset Used</th><th>Approx. Accuracy</th><th>When to Use</th></tr>
+    <tr><td>Logistic Regression</td><td>Classification</td><td>Diabetes (769)</td><td>74.7%</td><td>Simple baseline, interpretable, linearly separable data</td></tr>
+    <tr><td>KNN</td><td>Classification</td><td>Diabetes (769)</td><td>~74%</td><td>Simple, no training phase, good for small datasets</td></tr>
+    <tr><td>Naïve Bayes</td><td>Classification</td><td>Diabetes (769)</td><td>~75%</td><td>Text classification, fast, works with small data</td></tr>
+    <tr><td>SVM</td><td>Classification</td><td>Diabetes (769)</td><td>~77%</td><td>High-dimensional data, clear margin of separation</td></tr>
+    <tr><td>Decision Tree</td><td>Classification</td><td>Iris (150)</td><td>100%*</td><td>Interpretable, small datasets, clinical rule generation</td></tr>
+    <tr><td>Random Forest</td><td>Classification/Regression</td><td>Titanic, Housing, Heart</td><td>80-82%</td><td>General purpose, robust, feature importance</td></tr>
+    <tr><td>XGBoost</td><td>Classification/Regression</td><td>Diabetes</td><td>77-80%</td><td>Competitions, tabular data, high accuracy needed</td></tr>
+    <tr><td>Neural Network</td><td>Classification</td><td>Diabetes, Students</td><td>75-80%</td><td>Complex patterns, imaging, large datasets</td></tr>
+    <tr><td>PCA</td><td>Dimensionality Reduction</td><td>Height/Weight/Age</td><td>N/A</td><td>Many correlated features, visualisation, genomics</td></tr>
+  </table>
+  <p style="font-size:.85em;color:var(--mid);margin-top:8px">* 100% accuracy on small Iris test set — may reflect overfitting in real clinical datasets</p>
+
+  <div class="callout green" style="margin-top:20px">
+    <strong>🩺 Key Takeaway for Clinicians</strong>
+    No single algorithm is always best. Just as you select a diagnostic test based on sensitivity, specificity, cost, and clinical context — you select an ML algorithm based on dataset size, interpretability needs, accuracy requirements, and computational constraints. Always start simple (logistic regression), then escalate to complexity only if needed.
+  </div>
+</div>
+
+<div style="text-align:center;padding:30px;color:var(--mid);font-size:.9em;">
+  <p>📘 AI in Healthcare — Complete Study Notes | All 13 Notebooks Integrated</p>
+  <p style="margin-top:6px">GitHub: <a href="https://github.com/greymatter1005/AI-in-healthcare" target="_blank">github.com/greymatter1005/AI-in-healthcare</a></p>
+</div>
+
+</body>
+</html>
